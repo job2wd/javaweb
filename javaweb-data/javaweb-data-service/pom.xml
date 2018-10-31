@@ -22,6 +22,7 @@
   </parent>
   
   <modules>
+    <module>javaweb-data-service-core</module>
     <module>javaweb-data-service-mail</module>
     <module>javaweb-data-service-cache</module>
   </modules>        
