@@ -1,4 +1,0 @@
-org\javaweb\data\service\mail\MailSender.class
-org\javaweb\data\service\mail\SimpleHtmlMultipartMailMessage.class
-org\javaweb\data\service\mail\AbstractMailSender.class
-org\javaweb\data\service\mail\SimpleHtmlMultipartMailSender.class
