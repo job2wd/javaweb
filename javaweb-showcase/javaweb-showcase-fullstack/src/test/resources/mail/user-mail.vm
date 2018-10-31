@@ -1,0 +1,12 @@
+<html>
+<body>
+<h3>Hi ${user.userName}, welcome to the Chipping Sodbury On-the-Hill message boards!</h3>
+
+<div>
+   <img src='http://docs.spring.io/spring/docs/2.0.8/reference/images/xdev-spring_logo.jpg'/><br/>
+   <img src='cid:imageid'/><br/>
+   Your email address is <a href="mailto:${user.emailAddress}">${user.emailAddress}</a>.
+</div>
+</body>
+
+</html>

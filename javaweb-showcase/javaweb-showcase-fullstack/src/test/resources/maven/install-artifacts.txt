@@ -1,0 +1,6 @@
+说明：
+           进入该项目lib目录下，于cmd下执行如下命令：
+请注意：若相应jar包位置变化，请调整 -Dfile 参数值！
+
+mvn install:install-file -Dfile=drivers/oracle/classes12.jar -DgroupId=com.oracle -DartifactId=classes12 -Dversion=12 -Dpackaging=jar -DgeneratePom=true
+mvn install:install-file -Dfile=drivers/oracle/ojdbc14.jar -DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=10.2.0.2.0 -Dpackaging=jar -DgeneratePom=true

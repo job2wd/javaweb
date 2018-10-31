@@ -1,0 +1,40 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <groupId>org.javaweb.data.dao</groupId>
+  <artifactId>javaweb-data-dao</artifactId>
+  <!--version>1.0.0-SNAPSHOT</version-->
+  <packaging>pom</packaging>  
+  <name>javaweb-data-dao</name>
+  <description>
+            所有 javaweb data DAO 项目的超级父目录
+  </description>
+  
+  <parent>
+    <groupId>org.javaweb.data</groupId>
+    <artifactId>javaweb-data</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+  
+  <modules>
+    <module>javaweb-data-dao-mybatis</module>
+    <module>javaweb-data-dao-hibernate</module>
+  </modules>
+  
+  <dependencies>
+  
+    <!-- MySQL driver -->
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>5.1.33</version>
+    </dependency>
+    
+      <!-- Log4JDBC -->
+    <dependency>
+      <groupId>org.lazyluke</groupId>
+      <artifactId>log4jdbc-remix</artifactId>
+      <version>0.2.6</version>
+    </dependency>
+  </dependencies>    
+</project>

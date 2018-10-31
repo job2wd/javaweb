@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+说明：
+   1. 为了避免重装操作系统后Maven本地构建容器被清理，故目前设置Maven本地构建容器位于目录 D:\Job\Maven\.m2 下，并将该文件放置于此目录下。
+   2. 用该文件覆盖Maven安装目录下相应文件。（可选）
+   3. 设置MyEclipse，使得其User Settings指向该文件。（Windows->Preferences->Maven4MyEclipse->Maven->User Settings。完毕点击按钮“Update Settings”）
+   
+注：1. 目录 D:\Job\Maven\.m2 可根据实际需要自行配置。
+    2. 在进行以上设置前，最好将原来位于目录 ${user.home}/.m2/repository下的所有构建拷贝到目录 D:/Job/Maven/.m2/repository 下，以便Maven不会重新
+       下载所有构建（该过程相当漫长）。
+问题：
+    1. 无法更改用户级别 settings.xml 位置？
+-->
+
+<settings xmlns="http://maven.apache.org/settings/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+  <localRepository>D:/Job/Maven/.m2/repository</localRepository>
+
+  <servers>
+    <!-- Repositories for distributionManagement/repository in pom.xml -->
+    <server>
+      <id>bop-public-releases</id>
+      <username>admin</username>
+      <password>admin123</password>
+    </server>
+    <server>
+      <id>bop-public-snapshots</id>
+      <username>admin</username>
+      <password>admin123</password>
+    </server>
+    <server>
+      <id>bop-public-thirdparty</id>
+      <username>admin</username>
+      <password>admin123</password>
+    </server>
+    <!-- Repositories for mirrors/mirror -->
+    <server>
+      <!-- also see mirror/id -->
+      <id>bop-maven-central</id>
+      <username>admin</username>
+      <password>admin123</password>
+    </server>
+    
+    <!-- Groups for mirrors/mirror -->
+    <server>
+      <!-- also see mirror/id-->
+      <id>bop-public-repositories</id>
+      <username>admin</username>
+      <password>admin123</password>
+    </server>
+  </servers>
+
+  <mirrors>
+    <!-- Repositories --> 
+    <mirror>
+      <id>bop-maven-central</id>
+      <mirrorOf>central</mirrorOf>
+      <url>http://localhost/nexus/content/repositories/central</url>
+    </mirror>       
+    <!-- Groups -->     
+    <mirror>
+      <id>bop-public-repositories</id>
+      <mirrorOf>*</mirrorOf>
+      <url>http://localhost/nexus/content/groups/bop-public-repositories</url>
+    </mirror>    
+  </mirrors>
+ 
+  <profiles>
+    <!-- Groups -->
+    <profile>
+      <!-- Profile for development test. remove or update this profile for releases -->
+      <id>development</id>
+      <repositories>
+        <repository>
+          <id>bop-public-repositories</id>
+          <url>http://localhost/nexus/content/groups/bop-public-repositories</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <!-- set snapshots enabled is 'false' for releases -->
+            <enabled>true</enabled>
+          </snapshots>
+        </repository>
+      </repositories>
+      <pluginRepositories>
+        <pluginRepository>
+          <id>bop-public-repositories</id>
+          <url>http://localhost/nexus/content/groups/bop-public-repositories</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <!-- set snapshots enabled is 'false' for releases -->
+            <enabled>true</enabled>
+          </snapshots>
+        </pluginRepository>
+      </pluginRepositories>
+    </profile>
+  </profiles>
+
+  <activeProfiles>
+    <activeProfile>development</activeProfile>
+  </activeProfiles>
+
+</settings>

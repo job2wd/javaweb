@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 配置为若更改了该文件，则重新加载配置，每30秒执行一次扫描 -->
+<configuration scan="true" scanPeriod="30 seconds">
+  <property name="LOG_HOME" value="../logs/logback/javaweb-showcase-server" />
+  <property name="LOG_FILE_NAME_PREFIX" value="javaweb-showcase-server" />
+  <property name="LOG_FILE_NAME" value="${LOG_FILE_NAME_PREFIX}.log" />
+
+  <!-- 输出到控制台 -->
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+    <encoder>
+      <pattern>%date{yyyy-MM-dd HH:mm:ss} [%thread] %-5level [%logger:%line] - %message%n</pattern>
+    </encoder>
+  </appender>
+
+  <!-- 输出到日志文件（按照指定大小和指定文件格式备份） -->
+  <appender name="FILE.ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${LOG_HOME}/${LOG_FILE_NAME}</file>
+    
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!-- rollover daily -->
+      <!-- <fileNamePattern>${LOG_HOME}/${LOG_FILE_NAME_PREFIX}_%d{yyyy-MM-dd}.%i.log</fileNamePattern> -->      
+      <fileNamePattern>${LOG_HOME}/${LOG_FILE_NAME_PREFIX}_%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
+      <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+        <!-- or whenever the file size reaches 100MB -->
+        <maxFileSize>10MB</maxFileSize>
+      </timeBasedFileNamingAndTriggeringPolicy>
+    </rollingPolicy>
+
+    <!-- 
+    <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+      <fileNamePattern>tests.%i.log.zip</fileNamePattern>
+      <minIndex>1</minIndex>
+      <maxIndex>3</maxIndex>
+    </rollingPolicy>
+    <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+      <maxFileSize>5MB</maxFileSize>
+    </triggeringPolicy>
+     -->
+
+    <encoder>
+      <pattern>%date{yyyy-MM-dd HH:mm:ss} %-5level [%logger:%line] - %message%n</pattern>
+    </encoder>
+  </appender>
+
+  <!-- 本应用程序日志输出到文件 -->
+  <logger name="org.javaweb.showcase" level="DEBUG" additivity="false">
+    <appender-ref ref="STDOUT" />
+    <appender-ref ref="FILE.ROLLING" />
+  </logger>
+
+  <!-- 服务启动或第三方框架日志输出到控制台 -->
+  <root level="DEBUG">
+    <appender-ref ref="STDOUT" />
+    <appender-ref ref="FILE.ROLLING" />
+  </root>
+
+</configuration>

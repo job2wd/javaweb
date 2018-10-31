@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context"  
+    xmlns:jms="http://www.springframework.org/schema/jms"  
+    xsi:schemaLocation="http://www.springframework.org/schema/beans  
+     http://www.springframework.org/schema/beans/spring-beans.xsd  
+     http://www.springframework.org/schema/context  
+     http://www.springframework.org/schema/context/spring-context.xsd  
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd  
+    http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd">
+
+  <bean id="defaultJavaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+    <property name="host" value="smtp.163.com" />
+    <property name="port" value="25" />
+    <property name="username" value="java_spring_mail@163.com" />
+    <property name="password" value="163mail" />
+    <!-- SMTP服务器验证 -->
+    <property name="javaMailProperties">
+      <props>
+        <!-- 验证身份 -->
+        <prop key="mail.smtp.auth">true</prop>
+      </props>
+    </property>
+  </bean>
+    
+    <!-- 
+               网易 Mail:
+      http://help.163.com/09/1223/14/5R7P6CJ600753VB8.html
+               
+                  网易邮箱                     SMTP服务器                         SMTP端口(SSL/TCP&IP)     POP3服务器                         POP3端口(SSL/TCP&IP)
+       @126.com    smtp.126.com      25                      pop3.126.com     110
+       @163.com    smtp.163.com      465&994/25              pop3.163.com     995/110
+       @yeah.net   smtp.yeah.net     25                      pop3.yeah.net    110
+     -->
+     
+     <!-- 
+       GMail: 
+     
+          SMTP服务器                              SMTP端口                                        POP3服务器                        POP3端口
+          smtp.gmail.com     465或578（支持SSL/TSL）    pop.gmail.com    995（支持SSL）
+     -->
+
+  <bean id="simpleMailMessage" class="org.springframework.mail.SimpleMailMessage">
+    <!-- 发件人email -->
+    <property name="from" value="java_spring_mail@163.com" />
+        <!-- 
+        <property name="to" value="to@yeah.net" />
+        <property name="subject" value="Subject" />
+        <property name="text">
+          <value>ContentText</value>
+        </property>
+        -->    
+  </bean>
+
+  <!-- 
+  <bean id="simpleMail" class="org.javaweb.showcase.test.common.mail.Email">
+    <property name="javaMailSender" ref="defaultJavaMailSender" />
+    <property name="simpleMailMessage" ref="simpleMailMessage" />
+    <property name="velocityEngine" ref="velocityEngine"/>
+  </bean>
+   -->
+  
+  <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+      <property name="velocityProperties">
+         <value>
+            resource.loader=class
+            class.resource.loader.class=org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+         </value>
+      </property>
+   </bean>
+
+</beans>

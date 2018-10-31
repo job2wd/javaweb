@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="image" content="/libs/mdb-free/4.5.3/img/mdb-main.jpg">
+  
+  <title>System Index</title>
+  
+  <link rel="shortcut icon" href="/img/favicon.ico">
+
+  <link href="font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <!-- <link href="/libs/mdb-free/4.5.3/css/mdb.min.css" rel="stylesheet"> -->
+  <link href="css/mdb.min.css" rel="stylesheet">
+</head>
+
+<body class="hidden-sn mdb-skin">
+
+  <!--Double navigation-->
+  <header id="header">
+    <!-- Sidebar navigation -->
+    <div id="slide-out" class="side-nav sn-bg-4 mdb-sidenav">
+      <ul class="custom-scrollbar list-unstyled" style="max-height: 100vh;">
+
+        <!-- Logo -->
+        <li>
+          <div class="logo-wrapper waves-light">
+            <a href="#"><img src="img/mdb-transparent.png" class="img-fluid flex-center"></a>
+          </div>
+        </li>
+        <!--/. Logo -->
+
+        <!--Social-->
+        <li>
+          <ul class="social">
+            <li><a href="#" class="icons-sm fb-ic"><i class="fa fa-facebook"> </i></a></li>
+            <li><a href="#" class="icons-sm pin-ic"><i class="fa fa-pinterest"> </i></a></li>
+            <li><a href="#" class="icons-sm gplus-ic"><i class="fa fa-google-plus"> </i></a></li>
+            <li><a href="#" class="icons-sm tw-ic"><i class="fa fa-twitter"> </i></a></li>
+          </ul>
+        </li>
+        <!--/Social-->
+
+        <!--Search Form-->
+        <li>
+          <form class="search-form" role="search">
+            <div class="form-group md-form mt-0 pt-1 waves-light">
+              <input type="text" class="form-control" placeholder="Search">
+            </div>
+          </form>
+        </li>
+        <!--/.Search Form-->
+
+        <!-- Side navigation links -->
+        <li>
+          <ul class="collapsible collapsible-accordion">
+            <li>
+              <a class="collapsible-header waves-effect arrow-r">
+                <i class="fa fa-chevron-right"></i> Submit blog<i class="fa fa-angle-down rotate-icon"></i>
+              </a>
+              
+              <div class="collapsible-body">
+                <ul>
+                  <li><a href="#" class="waves-effect">Submit listing</a></li>
+                  <li><a href="#" class="waves-effect">Registration form</a></li>
+                </ul>
+              </div>
+            </li>
+            
+            <li>
+              <a class="collapsible-header waves-effect arrow-r">
+                <i class="fa fa-hand-pointer-o"></i> Instruction<i class="fa fa-angle-down rotate-icon"></i>
+              </a>
+              
+              <div class="collapsible-body">
+                <ul>
+                  <li><a href="#" class="waves-effect">For bloggers</a></li>
+                  <li><a href="#" class="waves-effect">For authors</a></li>
+                </ul>
+              </div>
+            </li>
+            
+            <li>
+              <a class="collapsible-header waves-effect arrow-r">
+                <i class="fa fa-eye"></i> About<i class="fa fa-angle-down rotate-icon"></i>
+              </a>
+              
+              <div class="collapsible-body">
+                <ul>
+                  <li><a href="#" class="waves-effect">Introduction</a></li>
+                  <li><a href="#" class="waves-effect">Monthly meetings</a></li>
+                </ul>
+              </div>
+            </li>
+            
+            <li>
+              <a class="collapsible-header waves-effect arrow-r">
+                <i class="fa fa-envelope-o"></i> Contact me<i class="fa fa-angle-down rotate-icon"></i>
+              </a>
+              
+              <div class="collapsible-body">
+                <ul>
+                  <li><a href="#" class="waves-effect">FAQ</a></li>
+                  <li><a href="#" class="waves-effect">Write a message</a></li>
+                  <li><a href="#" class="waves-effect">FAQ</a></li>
+                  <li><a href="#" class="waves-effect">Write a message</a></li>
+                  <li><a href="#" class="waves-effect">FAQ</a></li>
+                  <li><a href="#" class="waves-effect">Write a message</a></li>
+                  <li><a href="#" class="waves-effect">FAQ</a></li>
+                  <li><a href="#" class="waves-effect">Write a message</a></li>
+                </ul>
+              </div>
+            </li>
+            
+          </ul>
+        </li>
+        <!--/. Side navigation links -->
+      </ul>
+
+      <div class="sidenav-bg mask-strong"></div>
+    </div>
+
+    <!--/. Sidebar navigation -->
+    <!-- Navbar -->
+    <nav id="header-navbar" class="navbar fixed-top navbar-toggleable-md navbar-expand-lg scrolling-navbar double-nav">
+      <!-- SideNav slide-out button -->
+      <div class="float-left">
+        <a href="#" data-activates="slide-out" class="button-collapse"><i class="fa fa-bars"></i></a>
+      </div>
+
+      <!-- Breadcrumb-->
+      <div class="breadcrumb-dn mr-auto">
+        <p>Material Design for Bootstrap</p>
+      </div>
+
+      <ul class="nav navbar-nav nav-flex-icons ml-auto">
+        <li class="nav-item">
+          <a class="nav-link"><i class="fa fa-envelope"></i><span class="clearfix d-none d-sm-inline-block">Contact</span></a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link"><i class="fa fa-comments-o"></i> <span class="clearfix d-none d-sm-inline-block">Support</span></a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link"><i class="fa fa-user"></i> <span class="clearfix d-none d-sm-inline-block">Account</span></a>
+        </li>
+        
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" 
+          aria-haspopup="true" aria-expanded="false"> Dropdown </a>
+          
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="#">Action</a> 
+            <a class="dropdown-item" href="#">Another action</a> 
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+        </li>
+        
+      </ul>
+    </nav>
+    <!-- /.Navbar -->
+  </header>
+  <!--/.Double navigation-->
+
+  <main id="main"></main>
+
+  <!-- footer2.html:<footer id="footer" class="page-footer font-small unique-color-dark pt-0"> -->
+  <footer id="footer" class="page-footer font-small pt-4"></footer>
+
+  <script type="text/javascript" src="/libs/jquery/3.3.1/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="/libs/popper/1.14.3/popper.min.js"></script>
+  <script type="text/javascript" src="/libs/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/libs/mdb-free/4.5.3/js/mdb.min.js"></script>
+
+  <script type="text/javascript">
+      var hostname = window.location.hostname;
+      var port = window.location.port;
+      var protocol = window.location.protocol;
+      var ctxPath;
+
+      function request(objId, url, data, callback) {
+        //var htmlobj=$.ajax({url:ctxPath + "/" + url, async:false});
+        //$("#" + objId).html(htmlobj.responseText);
+        //load(url,data,function(response,status,xhr))
+        $("#" + objId).load(ctxPath + "/" + url);
+      }
+
+      function initPage() {
+        if (!port) {
+          port = "80";
+        }
+
+        port = ":" + port;
+        protocol = protocol + "//";
+        ctxPath = protocol + hostname + port;
+
+        //request("header-navbar", "/html/layout/header-navbar.html");
+        request("main", "/html/layout/main.html");
+        request("footer", "/html/layout/footer.html");
+
+        // SideNav Button Initialization
+        $(".button-collapse").sideNav();
+        // SideNav Scrollbar Initialization
+        //var sideNavScrollbar = $('.custom-scrollbar');
+        //Ps.initialize(sideNavScrollbar);            
+      }
+
+      $(function() {
+        initPage();
+      });
+    </script>
+</body>
+</html>

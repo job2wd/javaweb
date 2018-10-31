@@ -1,0 +1,24 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <groupId>org.javaweb.showcase</groupId>
+  <artifactId>javaweb-showcase</artifactId>
+  <!-- version>1.0.0-SNAPSHOT</version-->
+  <packaging>pom</packaging>
+  
+  <parent>
+    <groupId>org.javaweb</groupId>
+    <artifactId>javaweb</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+  
+  <name>javaweb-showcase</name>
+  <description>
+            所有 javaweb showcase 项目的超级父目录
+  </description>
+    
+  <modules>
+    <module>javaweb-showcase-fullstack</module>
+    <module>javaweb-showcase-springboot</module>
+  </modules>  
+</project>

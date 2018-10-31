@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<settings xmlns="http://maven.apache.org/settings/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <localRepository>${user.home}/.m2/repository</localRepository>
+  <offline>false</offline>
+  <mirrors>
+    <mirror>
+      <!--This is used to direct the public snapshots repo in the 
+          profile below over to a different nexus group -->
+      <id>jit-nexus-public-snapshots</id>
+      <mirrorOf>public-snapshots</mirrorOf>
+      <url>http://cvs.jit.com.cn:8081/nexus/content/repositories/snapshots/</url>
+    </mirror>
+    <mirror>
+      <!--This sends everything else to /public -->
+      <id>jit-nexus</id>
+      <mirrorOf>*</mirrorOf>
+      <url>http://cvs.jit.com.cn:8081/nexus/content/groups/public/</url>
+    </mirror>
+  </mirrors>
+  <profiles>
+    <profile>
+      <id>development</id>
+      <repositories>
+        <repository>
+          <id>central</id>
+          <url>http://central</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </repository>
+      </repositories>
+      <pluginRepositories>
+        <pluginRepository>
+          <id>central</id>
+          <url>http://central</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </pluginRepository>
+      </pluginRepositories>
+    </profile>
+    <profile>
+      <!--this profile will allow snapshots to be searched when activated-->
+      <id>public-snapshots</id>
+      <repositories>
+        <repository>
+          <id>public-snapshots</id>
+          <url>http://public-snapshots</url>
+          <releases>
+            <enabled>false</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </repository>
+      </repositories>
+      <pluginRepositories>
+        <pluginRepository>
+          <id>public-snapshots</id>
+          <url>http://public-snapshots</url>
+          <releases>
+            <enabled>false</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </pluginRepository>
+      </pluginRepositories>
+    </profile>
+  </profiles>
+  <activeProfiles>
+    <activeProfile>public-snapshots</activeProfile>
+  </activeProfiles>
+</settings>

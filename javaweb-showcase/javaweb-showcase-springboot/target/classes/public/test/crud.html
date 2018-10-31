@@ -1,0 +1,14 @@
+<h4>用户列表</h4>
+
+<table border="1px">
+  <tr>
+    <td>登录名</td>
+    <td>用户名</td>
+  </tr>
+  <tbody>
+    <tr th:each="user, iterStat : ${users}">
+      <td th:text="${user.loginName}"></td>
+      <td th:text="${user.fullName}"></td>
+    </tr>
+  </tbody>
+</table>

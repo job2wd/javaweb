@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="MyProject" default="dist" basedir=".">
+	<!--//将name的值改为对应工程的名字  
+        //将default的值改为需要的缺省任务（运行"ant"不指明任务时执行的任务）  
+    -->
+
+
+	<!--File and Directory Names  文件和目录设置  
+  
+  
+  
+       app.name             发布到tomcat的应用的名字  
+  
+       app.version          应用的版本标识  
+  
+       build.home           编译目标位置，默认为"build"  
+  
+       catalina.home        tomcat根目录位置  
+  
+       deploy.home          部署位置，默认为"${catalina.home}/webapps/${app.name}"  
+
+       dist.home            war包位置，默认为"dist"  
+                      
+  
+    -->
+
+	<property name="app.name" value="myapp" />
+	<!--//将value的值改为发布到tomcat的应用的名字  
+    //例如：<property name="app.name"      value="mytry"/>   
+-->
+	<property name="app.version" value="1.0" />
+	<property name="build.home" value="build" />
+	<property name="catalina.home" value="C:\Program Files\Java\Apache-Tomcat-5.0-MRTD" />
+	<!--//将value的值改为你安装tomcat的路径  
+    //例如：<property name="catalina.home" value="G:\jakarta-tomcat-4.0.1\"/>  
+-->
+	<property name="deploy.home" value="${catalina.home}/webapps/${app.name}" />
+	<property name="dist.home" value="dist" />
+
+
+	<!--Compilation Control Options 编译控制选项  
+  
+  compile.debug        是否包含debug信息  
+  
+  compile.deprecation    
+  
+  compile.optimize     是否优化编译  
+  
+-->
+
+	<property name="compile.debug" value="true" />
+	<property name="compile.deprecation" value="false" />
+	<property name="compile.optimize" value="true" />
+
+
+	<!-- Compilation Classpath 路径设置-->
+
+	<path id="compile.classpath">
+
+		<pathelement location="${catalina.home}/common/classes" />
+		<fileset dir="${catalina.home}/common/lib">
+			<include name="*.jar" />
+		</fileset>
+
+
+	</path>
+
+	<!--Clean Target 删除先前的目录结构-->
+
+	<target name="clean" description="Delete old build and dist directories">
+		<delete dir="${build.home}" />
+		<delete dir="${dist.home}" />
+	</target>
+
+	<!--Compile Target 编译代码，在这之前先由prepare建立目录结构-->
+
+	<target name="compile" depends="prepare" description="Compile Java sources">
+
+		<!-- Compile Java classes as necessary -->
+		<mkdir dir="${build.home}/WEB-INF/classes" />
+		<javac srcdir="src" destdir="${build.home}/WEB-INF/classes" debug="${compile.debug}" deprecation="${compile.deprecation}" optimize="${compile.optimize}">
+			<classpath refid="compile.classpath" />
+		</javac>
+
+
+		<copy todir="${build.home}/library/classes">
+			<fileset dir="src" includes="**/*.properties" />
+		</copy>
+
+	</target>
+
+
+	<!--Deploy Target 在tomcat下建立应用目录并部署应用-->
+
+	<target name="deploy" depends="compile" description="Deploy application to servlet container">
+
+		<!-- Copy the contents of the build directory -->
+		<mkdir dir="${deploy.home}" />
+		<copy todir="${deploy.home}">
+			<fileset dir="${build.home}" />
+		</copy>
+
+		<mkdir dir="${deploy.home}/WEB-INF/lib" />
+
+
+	</target>
+
+
+	<!--Dist Target 将应用打包成war，在这之前先执行javadoc和deploy-->
+
+	<target name="dist" depends="deploy,javadoc" description="Create binary distribution">
+
+		<copy todir="${dist.home}/docs">
+			<fileset dir="docs" />
+		</copy>
+
+		<jar jarfile="${dist.home}/${app.name}.war" basedir="${deploy.home}" />
+
+	</target>
+
+	<!--Javadoc Target 生成javadoc-->
+
+	<target name="javadoc" depends="compile" description="Create Javadoc API documentation">
+
+		<mkdir dir="${dist.home}/docs/api" />
+		<javadoc sourcepath="src" destdir="${dist.home}/docs/api" packagenames="hello.*" />
+		<!--//改为需要制作javadoc的包名。如果不做javadoc，这里不必改。例如：packagenames="hello.*"/>-->
+	</target>
+
+	<!--Prepare Target 建立打包的目的目录结构-->
+
+	<target name="prepare">
+
+		<mkdir dir="${build.home}" />
+		<copy todir="${build.home}">
+			<fileset dir="src" />
+		</copy>
+	</target>
+</project>

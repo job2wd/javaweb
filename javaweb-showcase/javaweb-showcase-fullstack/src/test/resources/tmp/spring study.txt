@@ -1,0 +1,38 @@
+http://jarg.iteye.com/blog/1729745
+
+Spring @ResponseBody输出是乱码的问题：原来使用的是：
+<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">  
+改为：
+<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">  
+<property name = "messageConverters">
+<list>  
+<bean class = "org.springframework.http.converter.StringHttpMessageConverter">  
+<property name = "supportedMediaTypes">  
+<list>
+<value>text/plain;charset=UTF-8</value>
+</list>
+</property> 
+</bean>
+<bean class = "org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">  
+<property name = "supportedMediaTypes">  
+<list>
+<value>text/plain;charset=UTF-8</value>
+<value>application/json;charset=UTF-8</value>
+</list>  
+</property> 
+</bean>
+</list>  
+</property>
+
+Blob，以前配置：
+@TypeDefs({@TypeDef(name="clob",typeClass=ClobStringType.class),@TypeDef(name="blob",typeClass=BlobByteArrayType.class)})
+@Lob
+@Type(type="blob")
+public byte[] getPic() {
+return pic;
+}
+现在改为：
+    @Lob
+public byte[] getPic() {
+return pic;
+}

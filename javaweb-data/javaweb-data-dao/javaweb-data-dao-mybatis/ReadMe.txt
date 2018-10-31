@@ -1,0 +1,17 @@
+﻿---------------------------------------------------------
+javaweb.org
+---------------------------------------------------------
+javaweb(org.javaweb.xxx)
+  |--javaweb-common(jar)
+  |--javaweb-data(pom)
+     |--javaweb-data-dao(pom)
+        |--javaweb-data-dao-mybatis(jar)(MySQL/Oracle/DB2....)
+        |--javaweb-data-dao-hibernate(jar)
+     |--javaweb-data-model(jar)
+     |--javaweb-data-service(jar)
+     |--javaweb-data-hadoop(jar)
+  |--javaweb-web(pom)
+     |--javaweb-web-springmvc(jar)
+     |--javaweb-web-struts(jar)
+  |---------------------------------
+  |--javaweb-showcase(war)

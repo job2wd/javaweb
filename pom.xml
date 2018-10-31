@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <groupId>org.javaweb</groupId>
+  <artifactId>javaweb</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  
+  <name>javaweb</name>
+  <description>
+            所有 javaweb 项目的超级父目录
+  </description>
+  
+  <modules>
+    <module>javaweb-common</module>
+    <module>javaweb-data</module>
+    <module>javaweb-web</module>
+    <module>javaweb-showcase</module>
+  </modules>
+  
+  <prerequisites>
+    <maven>3.0</maven>
+  </prerequisites>
+    
+  <organization>
+    <name>javaweb</name>
+    <url>http://www.javaweb.org</url>
+  </organization>
+
+  <licenses>
+    <license>
+      <name>Common Public License</name>
+      <url>http://www.opensource.org/licenses/cpl1.0.txt</url>
+      <distribution>manual</distribution>
+      <comments>Common Public License Version 1.0</comments>
+    </license>
+    <license>
+      <name>Apache License</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+      <comments>Version 2.0, January 2004</comments>
+    </license>
+  </licenses>
+  
+  <repositories>
+  <!-- 
+    <repository>
+      <id>sonatype-forge</id>
+      <name>Sonatype Forge</name>
+      <url>http://repository.sonatype.org/content/groups/forge/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+   -->    
+    <repository>
+        <id>io.spring.repo.maven.release</id>
+        <url>http://repo.spring.io/release/</url>
+        <snapshots><enabled>false</enabled></snapshots>
+    </repository>
+    
+    <repository>            
+      <id>spring-releases</id>           
+      <name>Spring Releases</name>            
+      <url>https://repo.spring.io/libs-release</url>        
+    </repository>  
+    
+    <repository>
+      <id>spring-milestone</id>
+      <name>Spring Milestone Repository</name>
+      <url>https://repo.spring.io/milestone</url>
+    </repository>
+    
+    <repository>
+      <id>docx4j</id>
+      <name>docx4j</name>
+      <url>https://mvnrepository.com/artifact/org.docx4j/docx4j</url>
+    </repository>
+  </repositories>
+  
+  <pluginRepositories>
+    <pluginRepository>            
+      <id>spring-releases</id>           
+      <name>Spring Releases</name>            
+      <url>https://repo.spring.io/libs-release</url>
+    </pluginRepository>
+  </pluginRepositories>
+  
+  <build>
+    <plugins>      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <inherited>true</inherited>
+        <configuration>
+          <source>${jdk.version}</source>
+          <target>${jdk.version}</target>
+          <encoding>${compile.encoding}</encoding>
+        </configuration>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <inherited>true</inherited>
+        <configuration>
+          <!-- <skipTest>true</skipTest> -->
+          <!-- 执行 mvn 命令的时候也可用 -DtestFailureIgnore=true 或 -Dmaven.test.failure.ignore=true -->
+          <testFailureIgnore>${testFailureIgnore}</testFailureIgnore>
+          <!-- 执行 mvn 命令的时候也可用 -DskipTests=true 或 -Dmaven.test.skip=true -->
+          <skip>${skipTests}</skip>
+        </configuration>
+      </plugin>
+                  
+      <!-- Export dependency libraries, Execute command: mvn dependency:copy-dependencies -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>copy-dependencies</id>
+              <phase>package</phase>
+              <goals>
+                <goal>copy-dependencies</goal>
+              </goals>
+              <configuration>
+                <outputDirectory>${project.build.directory}/dependencies</outputDirectory>
+                <overWriteReleases>false</overWriteReleases>
+                <overWriteSnapshots>false</overWriteSnapshots>
+                <overWriteIfNewer>true</overWriteIfNewer>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>        
+      </plugins>
+      
+    <pluginManagement>
+      <plugins>
+         <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.0</version>
+          <configuration>
+            <reportPlugins>
+              <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                  <dependencyDetailsEnabled>true</dependencyDetailsEnabled>
+                  <dependencyLocationsEnabled>true</dependencyLocationsEnabled>
+                </configuration>
+              </plugin>              
+              <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9</version>
+                <executions>
+                  <execution>
+                    <id>attach-javadocs</id>
+                    <phase>package</phase>
+                    <goals>
+                      <goal>jar</goal>
+                    </goals>
+                  </execution>
+                </executions>
+                 <configuration>
+                    <links>
+                        <link>http://download.oracle.com/javase/6/docs/api/</link>
+                    </links>
+                    <quiet>true</quiet>
+                    <author>false</author>
+                    <version>true</version>
+                    <doctitle>${project.name} ${project.version} Java API</doctitle>
+                    <windowtitle>${project.name} ${project.version} Java API</windowtitle>
+                </configuration>
+              </plugin>
+            </reportPlugins>
+          </configuration>
+        </plugin>
+        
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>2.1.2</version>
+          <configuration>
+            <attach>true</attach>
+          </configuration>
+          <inherited>true</inherited>
+          <executions>
+            <execution>
+              <id>attach-sources</id>
+              <phase>package</phase>
+              <goals>
+                <goal>jar</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+                       
+        <plugin>
+          <groupId>org.eclipse.m2e</groupId>
+          <artifactId>lifecycle-mapping</artifactId>
+          <version>1.0.0</version>
+          <configuration>
+          <lifecycleMappingMetadata>
+            <pluginExecutions>
+              <pluginExecution>
+                <pluginExecutionFilter>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-dependency-plugin</artifactId>
+                  <versionRange>[2.0,)</versionRange>
+                  <goals>
+                    <goal>copy-dependencies</goal>
+                  </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                    <ignore />
+                  </action>
+                </pluginExecution>
+              </pluginExecutions>
+            </lifecycleMappingMetadata>
+          </configuration>
+        </plugin>
+      
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>2.7</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+  
+  <dependencyManagement>
+    <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- log family -->
+    <dependency>
+     <groupId>org.slf4j</groupId>
+     <artifactId>jcl-over-slf4j</artifactId>
+     <version>${slf4j.version}</version>
+     <scope>runtime</scope>
+   </dependency>
+    
+    <!-- logback -->
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-core</artifactId>
+      <version>${logback.version}</version>      
+    </dependency> 
+       
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>${logback.version}</version>
+      <scope>compile</scope>
+      <exclusions>        
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
+         </exclusion>
+      </exclusions>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.logback-extensions</groupId>
+      <artifactId>logback-ext-spring</artifactId>
+      <version>${logback-ext-spring.version}</version>
+      <scope>runtime</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>ch.qos.logback</groupId>
+          <artifactId>logback-classic</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <!-- / logback -->
+    
+    <!-- Apache commons family -->
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <version>${commons-logging.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>${commons-lang3.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>commons-dbcp</groupId>
+      <artifactId>commons-dbcp</artifactId>
+      <version>${commons-dbcp.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+      <version>${commons-codec.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>${commons-io.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-collections4</artifactId>
+      <version>${commons-collections4.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-fileupload</groupId>
+      <artifactId>commons-fileupload</artifactId>
+      <version>${commons-fileupload.version}</version>
+    </dependency>
+    
+    <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-compress -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-compress</artifactId>
+      <version>${commons-compress.version}</version>
+    </dependency>
+    <!-- / Apache commons family -->
+    
+    <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>  
+    
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <version>${hibernate.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.hibernate.validator</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>${hibernate-validator.version}</version>
+    </dependency> 
+    
+    <!-- Memcached -->    
+    <!-- https://code.google.com/p/xmemcached/wiki/User_Guide_zh#与Spring框架和Hibernate-memcached的集成 -->
+    <!-- https://mvnrepository.com/artifact/com.googlecode.xmemcached/xmemcached -->
+    <dependency>
+      <groupId>com.google.code.simple-spring-memcached</groupId>
+      <artifactId>xmemcached-provider</artifactId>
+      <version>${xmemcached-provider.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>com.googlecode</groupId>
+      <artifactId>hibernate-memcached</artifactId>
+      <version>${hibernate-memcached.version}</version>      
+    </dependency>
+    
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-orm</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context-support</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    
+    <!-- Spring test. 注意：scope 为 test 的包不会随项目自动发布到 tomcat 下去！ -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <version>${spring.version}</version>
+      <scope>test</scope>
+    </dependency>    
+    
+    <dependency>
+      <groupId>org.springframework.data</groupId>
+      <artifactId>spring-data-commons</artifactId>
+      <version>${spring-data-commons.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>${spring.version}</version>
+      <exclusions>        
+        <exclusion>
+          <!-- 排除该构建，用 jcl-over-slf4j代之。 -->
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+         </exclusion>
+      </exclusions>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-web</artifactId>
+      <version>${spring-security.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-config</artifactId>
+      <version>${spring-security.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-taglibs</artifactId>
+      <version>${spring-security.version}</version>
+    </dependency>
+    
+    <!-- https://mvnrepository.com/artifact/net.sourceforge.javacsv/javacsv -->
+    <dependency>
+      <groupId>net.sourceforge.javacsv</groupId>
+      <artifactId>javacsv</artifactId>
+      <version>${javacsv.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>net.sourceforge.pinyin4j</groupId>
+      <artifactId>pinyin4j</artifactId>
+      <version>${pinyin4j.version}</version>
+    </dependency>
+    
+    </dependencies>    
+  </dependencyManagement>
+    
+  <properties>
+    <parent.version>${project.version}</parent.version>
+    
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <copyright.year>2012-2020</copyright.year>
+    
+    <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
+    <packname>${project.version}-${maven.build.timestamp}</packname>
+    
+    <skipTests>true</skipTests>
+    <testFailureIgnore>true</testFailureIgnore>
+    <jdk.version>1.8</jdk.version>
+    <compile.encoding>UTF-8</compile.encoding>
+    
+    <junit.version>4.12</junit.version>
+    <slf4j.version>1.7.25</slf4j.version>
+    <logback.version>1.2.3</logback.version> 
+    <logback-ext-spring.version>0.1.1</logback-ext-spring.version>
+    
+    <spring.version>5.0.8.RELEASE</spring.version>
+    <spring-data-commons.version>2.1.2.RELEASE</spring-data-commons.version>
+    <spring-security.version>5.0.4.RELEASE</spring-security.version>
+    
+    <hibernate.version>5.2.17.Final</hibernate.version>
+    <hibernate-validator.version>6.0.9.Final</hibernate-validator.version>
+    
+    <commons-logging.version>1.2</commons-logging.version>
+    <commons-lang3.version>3.7</commons-lang3.version>
+    <commons-dbcp.version>1.4</commons-dbcp.version>
+    <commons-codec.version>1.9</commons-codec.version>    
+    <commons-io.version>2.6</commons-io.version>    
+    <commons-collections4.version>4.1</commons-collections4.version>    
+    <commons-fileupload.version>1.3.3</commons-fileupload.version>
+    <commons-compress.version>1.18</commons-compress.version>
+    
+    <jackson.version>2.9.5</jackson.version>
+    <xmemcached-provider.version>3.5.0</xmemcached-provider.version>
+    <hibernate-memcached.version>1.5</hibernate-memcached.version>
+    
+    <javacsv.version>2.0</javacsv.version>
+    <pinyin4j.version>2.5.0</pinyin4j.version>
+  </properties>
+</project>

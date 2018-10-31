@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+  xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:p="http://www.springframework.org/schema/p" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+    http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
+
+  <!-- 引入property文件 start -->
+  <bean id="placeholderConfig"
+    class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="location">
+      <value>classpath:jdbc.properties</value>
+    </property>
+  </bean>
+  <!-- 引入property文件 end -->
+
+  <!-- 配置多个数据源 start -->
+  <bean id="dataSource10" class="com.atomikos.jdbc.AtomikosDataSourceBean"
+    init-method="init" destroy-method="close">
+    <property name="uniqueResourceName">
+      <value>mysql_ds10</value>
+    </property>
+    <property name="xaDataSourceClassName">
+      <value>com.mysql.jdbc.jdbc2.optional.MysqlXADataSource</value>
+    </property>
+    <property name="xaProperties">
+      <props>
+        <prop key="user">${datasource10.username}</prop>
+        <prop key="password">${datasource10.password}</prop>
+        <prop key="URL">${datasource10.url}</prop>
+      </props>
+    </property>
+    <property name="poolSize">
+      <value>5</value>
+    </property>
+    <property name="testQuery">
+      <value>select 1</value>     <!-- 尽力加上，不然会出现告警 -->
+    </property>
+  </bean>
+  <bean id="dataSource12" class="com.atomikos.jdbc.AtomikosDataSourceBean"
+    init-method="init" destroy-method="close">
+    <property name="uniqueResourceName">
+      <value>mysql_ds12</value>
+    </property>
+    <property name="xaDataSourceClassName">
+      <value>com.mysql.jdbc.jdbc2.optional.MysqlXADataSource</value>
+    </property>
+    <property name="xaProperties">
+      <props>
+        <prop key="user">${datasource12.username}</prop>
+        <prop key="password">${datasource12.password}</prop>
+        <prop key="URL">${datasource12.url}</prop>
+      </props>
+    </property>
+    <property name="poolSize">
+      <value>5</value>
+    </property>
+    <property name="testQuery">
+      <value>select 1</value>     <!-- 尽力加上，不然会出现告警 -->
+    </property>
+  </bean>
+  <!-- 配置多个数据源 end -->
+
+  <bean id="dataSource" class="com.guoxin.dynamicds.DynamicDataSource">
+    <property name="targetDataSources">
+      <map>
+        <entry key="DataSource10" value-ref="dataSource10" />
+        <entry key="DataSource12" value-ref="dataSource12" />
+      </map>
+    </property>
+    <property name="defaultTargetDataSource" ref="dataSource10" />
+  </bean>
+
+
+  <!-- 注入hibernate的sessionFactory Start -->
+  <bean id="sessionFactory"
+    class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+    <property name="dataSource" ref="dataSource" />
+    <property name="packagesToScan">
+      <list>
+        <value>com.guoxin.model</value>
+      </list>
+    </property>
+
+    <!-- 定义hibernate的sessionFactory的属性 start -->
+    <property name="hibernateProperties">
+      <props>
+        <prop key="hibernate.dialect"><!-- 定义hibernate的连接方言 -->
+          ${hibernate.dialect}
+        </prop>
+        <prop key="hibernate.show_sql"><!-- 定义是否在后台show出sql -->
+          ${hibernate.show_sql}
+        </prop>
+        <prop key="hibernate.jdbc.fetch_size">
+          ${hibernate.jdbc.fetch_size}
+        </prop>
+        <prop key="hibernate.jdbc.batch_size">
+          ${hibernate.jdbc.batch_size}
+        </prop>
+        <!--<prop key="hibernate.query.substitutions">true 'Y', false 'N'</prop> 
+          <prop key="hibernate.current_session_context_class">jta</prop> <prop key="hibernate.transaction.manager_lookup_class">com.atomikos.icatch.jta.hibernate3.TransactionManagerLookup</prop> 
+          <prop key="hibernate.transaction.factory_class">org.hibernate.transaction.JTATransactionFactory</prop> -->
+      </props>
+    </property>
+    <!-- 定义hibernate的sessionFactory的属性 end -->
+  </bean>
+  <!-- 注入hibernate的sessionFactory End -->
+
+
+  <bean id="atomikosTransactionManager" class="com.atomikos.icatch.jta.UserTransactionManager"
+    init-method="init" destroy-method="close">
+    <property name="forceShutdown" value="true" />
+  </bean>
+
+  <bean id="atomikosUserTransaction" class="com.atomikos.icatch.jta.UserTransactionImp">
+    <property name="transactionTimeout" value="300" />
+  </bean>
+
+  <bean id="springTransactionManager"
+    class="org.springframework.transaction.jta.JtaTransactionManager">
+    <property name="transactionManager" ref="atomikosTransactionManager" />
+    <property name="userTransaction" ref="atomikosUserTransaction" />
+  </bean>
+
+  <bean id="transactionInterceptor"
+    class="org.springframework.transaction.interceptor.TransactionInterceptor">
+    <property name="transactionManager" ref="springTransactionManager" />
+    <property name="transactionAttributes">
+      <props>
+        <prop key="get*">PROPAGATION_REQUIRED,readOnly</prop>
+        <prop key="list*">PROPAGATION_REQUIRED,readOnly</prop>
+        <prop key="find*">PROPAGATION_REQUIRED,readOnly</prop>
+        <prop key="*">PROPAGATION_REQUIRED</prop>
+      </props>
+    </property>
+  </bean>
+
+  <bean id="forumThread" class="com.guoxin.web.common.thread.threadtask.ForumReplyTask"></bean>
+
+  <bean
+    class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+    <property name="beanNames">
+      <list>
+        <value>*Service</value>
+        <value>*Operation</value>
+        <value>forumThread</value>
+      </list>
+    </property>
+    <property name="interceptorNames">
+      <list>
+        <value>transactionInterceptor</value>
+      </list>
+    </property>
+  </bean>
+</beans>

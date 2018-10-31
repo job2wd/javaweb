@@ -1,0 +1,515 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.bop.demo</groupId>
+  <artifactId>bop-demo</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>bop-demo</name>
+  <description>bop demo parent</description>
+  <url>http://www.bop.com/demo</url>
+  <inceptionYear>2012</inceptionYear>
+
+  <prerequisites>
+    <maven>3.0</maven>
+  </prerequisites>
+
+  <modules>
+    <module>bop-demo-common</module>
+    <module>bop-demo-web</module>
+  </modules>
+
+  <organization>
+    <name>bop</name>
+    <url>http://www.bop.com</url>
+  </organization>
+
+  <licenses>
+    <license>
+      <name>Common Public License</name>
+      <url>http://www.opensource.org/licenses/cpl1.0.txt</url>
+      <distribution>manual</distribution>
+      <comments>Common Public License Version 1.0</comments>
+    </license>
+    <license>
+      <name>Apache License</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+      <comments>Version 2.0, January 2004</comments>
+    </license>
+    <license>
+      <name>BOP LICENSE-1.0</name>
+      <url>http://www.bop.com/bop-demo/LICENSE-1.0.txt</url>
+      <distribution>manual</distribution>
+      <comments>A business-friendly OSS license</comments>
+    </license>
+  </licenses>
+
+  <scm>
+    <connection>scm:svn:https://127.0.0.1:8443/svn/bop/demo/trunk</connection>
+    <developerConnection>scm:svn:https://127.0.0.1:8443/svn/bop/demo/trunk</developerConnection>
+    <!-- 
+      <tag>HEAD</tag>      
+     -->
+    <url>https://127.0.0.1:8443/svn/bop/demo/trunk</url>
+  </scm>
+
+  <issueManagement>
+    <system>JIRA</system>
+    <url>http://localhost/jira/browse/BOPDEMO</url>
+  </issueManagement>
+
+  <ciManagement>
+    <system>Hudson</system>
+    <url>http://localhost/hudson/job/bop-demo</url>
+    <notifiers>
+      <notifier>
+        <type>mail</type>
+        <sendOnError>true</sendOnError>
+        <sendOnFailure>true</sendOnFailure>
+        <sendOnSuccess>false</sendOnSuccess>
+        <sendOnWarning>false</sendOnWarning>
+        <configuration>
+          <address>mail2wd@163.com</address>
+        </configuration>
+      </notifier>
+    </notifiers>
+  </ciManagement>
+
+  <mailingLists>
+    <mailingList>
+      <name>David</name>
+      <post>mail2wd@163.com</post>
+      <subscribe>mail2wd@163.com</subscribe>
+      <unsubscribe>mail2wd@163.com</unsubscribe>
+      <archive>http://www.bop.com/bop-demo/dev</archive>
+    </mailingList>
+  </mailingLists>
+
+  <developers>
+    <developer>
+      <id>David_King</id>
+      <name>David King</name>
+      <email>mail2wd@163.com</email>
+      <url>http://joy2wd.blogcn.com</url>
+      <roles>
+        <role>Project Manager</role>
+        <role>Architect</role>
+        <role>Programmer</role>
+      </roles>
+      <organization>bop</organization>
+      <organizationUrl>http://www.bop.com/bop-demo/devr/david</organizationUrl>
+      <properties>
+        <dept>No</dept>
+      </properties>
+      <timezone>-5</timezone>
+    </developer>
+  </developers>
+  <!--
+    <contributors> <contributor> <name>David King</name> <email>mail2wd@163.com</email> <url>http://joy2wd.blogcn.com</url> <roles>
+    <role>Project Manager</role> <role>Architect</role> <role>Programmer</role> </roles> <organization>bop</organization>
+    <organizationUrl>http://www.bop.com/bop-demo/devr/david</organizationUrl> <properties> <dept>No</dept> </properties>
+    <timezone>-5</timezone> </contributor> </contributors>
+  -->
+
+  <distributionManagement>
+    <repository>
+      <id>bop-public-releases</id>
+      <name>BOP Internal Releases</name>
+      <url>http://localhost/nexus/content/repositories/bop-public-releases</url>
+      <uniqueVersion>false</uniqueVersion>
+    </repository>
+    <snapshotRepository>
+      <id>bop-public-snapshots</id>
+      <name>BOP Internal Snapshots</name>
+      <url>http://localhost/nexus/content/repositories/bop-public-snapshots</url>
+      <uniqueVersion>true</uniqueVersion>
+      <layout>default</layout>
+    </snapshotRepository>
+    <!--
+      <site> <id>www.bop.com</id> <name>bop demo project site</name> <url>scp://www.bop.com/www/docs/project/</url> </site>
+    -->
+  </distributionManagement>
+
+  <repositories>
+    <repository>
+      <id>bop-public-releases</id>
+      <url>http://localhost/nexus/content/repositories/bop-public-releases</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>bop-public-snapshots</id>
+      <url>http://localhost/nexus/content/repositories/bop-public-snapshots</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>bop-public-releases</id>
+      <url>http://localhost/nexus/content/repositories/bop-public-releases</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </pluginRepository>
+    <pluginRepository>
+      <id>bop-public-snapshots</id>
+      <url>http://localhost/nexus/content/repositories/bop-public-snapshots</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </pluginRepository>
+  </pluginRepositories>
+
+  <build>
+    <defaultGoal>install</defaultGoal>
+    <pluginManagement>
+      <!-- plugin 若没有特殊配置，可无需声明 -->
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>2.3.2</version>
+          <inherited>true</inherited>
+          <configuration>
+            <source>1.5</source>
+            <target>1.5</target>
+            <encoding>UTF-8</encoding>
+            <!-- 
+            <fork>true</fork>
+            <meminitial>128m</meminitial>
+            <maxmem>512m</maxmem>
+             -->
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.12</version>
+          <inherited>true</inherited>
+          <configuration>
+            <!--             
+            <skip>${skipTests}</skip>
+           -->
+            <testFailureIgnore>true</testFailureIgnore>
+            <skipTest>${skipTests}</skipTest>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.0</version>
+          <inherited>true</inherited>
+          <!--
+            <executions> <execution> <goals> <goal>stage</goal> </goals> </execution> </executions>
+          -->
+          <configuration>
+            <reportPlugins>
+              <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                  <dependencyDetailsEnabled>true</dependencyDetailsEnabled>
+                  <dependencyLocationsEnabled>true</dependencyLocationsEnabled>
+                </configuration>
+                <!--
+                  <reports> <report>dependencies</report> <report>scm</report> </reports>
+                -->
+              </plugin>
+              <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.8</version>
+                <!--
+                  <executions> <execution> <id>aggregate</id> <phase>site</phase> <goals> <goal>aggregate</goal> </goals> <configuration>
+                  Specific configuration for the aggregate report ...... </configuration> </execution> </executions>
+                -->
+                <!--
+                  <configuration> <minmemory>128m</minmemory> <maxmemory>1g</maxmemory> </configuration>
+                -->
+              </plugin>
+              <!-- 'maven-clover2-plugin' is not free -->
+              <!--
+                <plugin> <groupId>com.atlassian.maven.plugins</groupId> <artifactId>maven-clover2-plugin</artifactId>
+                <version>3.1.3</version> </plugin>
+              -->
+              <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jdepend-maven-plugin</artifactId>
+              </plugin>
+              <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                  <linkXref>true</linkXref>
+                  <sourceEncoding>utf-8</sourceEncoding>
+                  <minimumTokens>100</minimumTokens>
+                  <targetJdk>1.5</targetJdk>
+                </configuration>
+              </plugin>
+              <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>2.3</version>
+                <configuration>
+                  <aggregate>true</aggregate>
+                </configuration>
+              </plugin>
+              <!--
+        <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>changes-maven-plugin</artifactId> </plugin>
+      -->
+              <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-changes-plugin</artifactId>
+                <version>2.6</version>
+                <reportSets>
+                  <reportSet>
+                    <reports>
+                      <!-- changes-report -->
+                      <report>jira-report</report>
+                    </reports>
+                  </reportSet>
+                </reportSets>
+              </plugin>
+              <!--
+        <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>changelog-maven-plugin</artifactId> </plugin>
+      -->
+              <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-changelog-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                  <type>range</type>
+                  <range>30</range>
+                  <dateFormat>yyyy/MM/dd hh:mm:ss</dateFormat>
+                  <headingDateFormat>yyyy/MM/dd</headingDateFormat>
+                  <!--
+                    <systemProperties>
+                    <property>
+                      <name>SVN_HOME</name>
+                      <value>your-client-spec-name</value>
+                    </property>
+                  </systemProperties> 
+                   -->                  
+                </configuration>
+              </plugin>
+              <!-- TODO and @todo Tags report -->
+              <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>taglist-maven-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                  <tagListOptions>
+                    <tagClasses>
+                      <tagClass>
+                        <displayName>Todo Work</displayName>
+                        <tags>
+                          <tag>
+                            <matchString>todo</matchString>
+                            <matchType>ignoreCase</matchType>
+                          </tag>
+                          <!--
+                            <tag> <matchString>FIXME</matchString> <matchType>exact</matchType> </tag> <tag> <matchString>@*</matchString>
+                            <matchType>ignoreCase</matchType> </tag>
+                          -->
+                        </tags>
+                      </tagClass>
+                    </tagClasses>
+                  </tagListOptions>
+                </configuration>
+              </plugin>
+              <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>2.12</version>
+              </plugin>
+              <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                  <formats>
+                    <format>xml</format>
+                    <format>html</format>
+                  </formats>
+                </configuration>
+              </plugin>
+              <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.6</version>
+              </plugin>
+              <!-- EMMA plugin for Maven 2. -->
+              <!--
+                <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>emma-maven-plugin</artifactId> <version>1.0-alpha-3</version>
+                <inherited>true</inherited> <executions> <execution> <phase>process-classes</phase> <goals> <goal>instrument</goal> </goals>
+                </execution> </executions> </plugin>
+              -->
+            </reportPlugins>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-scm-plugin</artifactId>
+          <version>1.6</version>
+          <inherited>true</inherited>
+          <!-- 
+            <configuration>
+            <connectionType>connection</connectionType>
+            <password>david</password>
+            <username>david</username>
+            </configuration>
+           -->          
+        </plugin>
+        <!-- 可使用如下命令在发布时定义 settings.xml 位置：mvn deploy -s D:\Job\Maven\.m2\settings.xml -->
+        <!-- plugin 若没有特殊配置，则无需声明 -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>2.7</version>
+          <inherited>true</inherited>
+        </plugin>
+        <!--
+          The Source Plugin creates a jar archive of the source files of the current project. The jar file is, by default, created in the
+          project's target directory. http://maven.apache.org/plugins/maven-source-plugin/
+        -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>2.1.2</version>
+          <inherited>true</inherited>
+          <configuration>
+            <attach>true</attach>
+          </configuration>          
+          <executions>
+            <execution>
+              <id>attach-sources</id>
+              <!-- verify -->
+              <phase>package</phase>
+              <goals>
+                <!-- jar-no-fork -->
+                <goal>jar</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>log4j</groupId>
+        <artifactId>log4j</artifactId>
+        <version>${log4j.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>javax.jms</groupId>
+            <artifactId>jms</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>com.sun.jdmk</groupId>
+            <artifactId>jmxtools</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>com.sun.jmx</groupId>
+            <artifactId>jmxri</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${junit.version}</version>
+        <scope>test</scope>
+        <optional>true</optional>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-test</artifactId>
+        <version>${spring.version}</version>
+        <scope>test</scope>
+        <optional>true</optional>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <profiles>
+    <profile>
+      <id>release-attach-sources</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>2.1.2</version>
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+                <goals>
+                  <goal>jar-no-fork</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <!--
+      <profile> <id>concord</id> <build> <plugins> <plugin> <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-antrun-plugin</artifactId> <version>1.7</version> <executions> <execution> <id>build-archetype</id>
+      <phase>process-resources</phase> <goals> <goal>run</goal> </goals> <configuration> <tasks> <ant> </ant> </tasks> <target></target>
+      </configuration> </execution> </executions> </plugin> </plugins> </build> </profile>
+    -->
+  </profiles>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <copyright.year>2012-2020</copyright.year>
+
+    <bop.commons.core.version>1.0.0-SNAPSHOT</bop.commons.core.version>
+
+    <skipTests>true</skipTests>
+
+    <log4j.version>1.2.16</log4j.version>
+    <junit.version>4.8.2</junit.version>
+
+    <spring.version>3.0.5.RELEASE</spring.version>
+
+    <com.thoughtworks.xstream.version>1.3.1</com.thoughtworks.xstream.version>
+    <com.atlassian.extras.version>0.7.19</com.atlassian.extras.version>
+
+    <net.sf.jasperreports.version>3.6.0</net.sf.jasperreports.version>
+    <org.beanshell.bsh.version>2.0b4</org.beanshell.bsh.version>
+    <org.jdom.version>1.1</org.jdom.version>
+    <commons.codec.version>1.4</commons.codec.version>
+    <commons.httpclient.version>3.1</commons.httpclient.version>
+    <net.sourceforge.jexcelapi.version.jxl.version>2.6.12</net.sourceforge.jexcelapi.version.jxl.version>
+  </properties>
+
+</project>

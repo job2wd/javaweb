@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context"  
+    xsi:schemaLocation="
+     http://www.springframework.org/schema/beans 
+     http://www.springframework.org/schema/beans/spring-beans.xsd  
+     http://www.springframework.org/schema/context 
+     http://www.springframework.org/schema/context/spring-context.xsd">
+  <description>Spring 配置入口</description>
+  
+  <context:annotation-config/>
+  
+  <!-- 自动扫描注解，可自定义更多不同的可扫描的包 -->
+  <context:component-scan base-package="org.javaweb.showcase" >
+    <!-- 排除对 @Controller 注解的扫描，以免和 SpringMVC 发生冲突。 -->
+    <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+  </context:component-scan>
+</beans>

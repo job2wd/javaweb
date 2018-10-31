@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+  <!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+
+  <!-- Enables the Spring MVC @Controller programming model -->
+  <mvc:annotation-driven>
+    <mvc:async-support default-timeout="10" />
+    <mvc:message-converters>
+     <!-- 
+     <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter" />  
+     <bean class="org.springframework.http.converter.FormHttpMessageConverter" />  
+     <bean class="org.springframework.http.converter.xml.SourceHttpMessageConverter" />  
+      -->
+     <bean class="org.springframework.http.converter.StringHttpMessageConverter" >
+       <property name="supportedMediaTypes">
+         <list>
+           <value>text/plain;charset=UTF-8</value>
+           <value>text/html;charset=UTF-8</value>
+           <value>text/xml;charset=UTF-8</value>
+           <value>applicaiton/javascript;charset=UTF-8</value>
+           <value>applicaiton/json;charset=UTF-8</value>
+         </list>
+       </property>
+       <property name="writeAcceptCharset" value="false"/>
+     </bean>
+     <!-- 
+     <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+      -->     
+    </mvc:message-converters>
+    
+    <mvc:argument-resolvers>
+      <bean class="org.springframework.data.web.PageableHandlerMethodArgumentResolver" />
+    </mvc:argument-resolvers>
+  </mvc:annotation-driven>
+  
+  <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" />
+  <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+    <property name="messageConverters">
+      <list>
+        <bean class = "org.springframework.http.converter.StringHttpMessageConverter"> 
+          <constructor-arg>
+            <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+              <property name="targetClass" value="java.nio.charset.Charset" />
+              <property name="targetMethod" value="forName"/>
+              <property name="arguments" value="UTF-8"/>
+            </bean>
+          </constructor-arg>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  
+  <!-- 自动扫描且只扫描@Controller -->
+  <context:component-scan base-package="org.javaweb.showcase" use-default-filters="false">
+    <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+  </context:component-scan>
+  
+  <!-- Maps '/' requests to the 'home'(home.jsp) view -->
+  <mvc:view-controller path="/" view-name="redirect:/home"/>
+  
+  <!-- 将无法mapping到Controller的path交给default servlet handler处理 -->
+  <mvc:default-servlet-handler/>
+
+  <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+    <property name="basename" value="/prop/i18n/applicationResources"/>
+    <property name="useCodeAsDefaultMessage" value="true"/>
+    <property name="defaultEncoding" value="UTF-8"/>
+  </bean>
+  
+  <!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources/ directory -->
+  <mvc:resources mapping="/resources/**" location="/resources/" />
+  <mvc:resources mapping="/static/**" location="/static/" />
+  <mvc:resources mapping="/common/**" location="/common/" />
+  <mvc:resources mapping="/test/**" location="/test/" />
+
+  <!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+  <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <property name="requestContextAttribute" value="rc"/>
+    <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />  
+    <property name="contentType" value="text/html" />
+    <property name="prefix" value="/WEB-INF/views/" />
+    <property name="suffix" value=".jsp" />
+    <property name="order" value="2" />
+  </bean>
+	
+  <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    <property name="defaultEncoding" value="UTF-8" />
+    <property name="maxUploadSize" value="10240000" /><!-- 10M -->
+    <property name="maxInMemorySize" value="10240000" /><!-- 10M -->
+  </bean>
+  
+  <mvc:interceptors>
+    <mvc:interceptor>
+      <mvc:mapping path="/**" />
+        <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+          <property name="paramName" value="locale" />
+        </bean>
+    </mvc:interceptor>
+  </mvc:interceptors>
+  
+  <bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+    <property name="order" value="1" />
+  </bean>
+  
+  <bean class="org.javaweb.showcase.common.EnableSynchronizeOnSessionPostProcessor" />
+   
+  <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+     <property name="order" value="1" />
+      <property name="exceptionMappings">  
+        <props>
+          <prop key="java.lang.Exception">500</prop> 
+        </props>  
+      </property>      
+      <property name="statusCodes">
+        <props>
+          <prop key="notFoundError">404</prop>
+          <prop key="404">404</prop>
+        </props>
+      </property>
+      <property name="defaultStatusCode" value="500" />
+      <!-- 
+      <property name="defaultErrorView" value="systemError" />
+      <property name="warnLogCategory" value="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver" />
+       -->
+  </bean>
+
+  <!-- 
+  <bean id="cart" class="ik.am.jpetstore.domain.model.Cart" scope="session">
+    <aop:scoped-proxy />
+  </bean>
+   -->
+    
+  <!-- Enable rendering of JSON back to client -->
+  <!-- 
+  <bean
+    class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+    <property name="mediaTypes">
+      <map>
+        <entry key="json" value="application/json;charset=UTF-8" />
+        <entry key="xml" value="text/xml;charset=UTF-8" />
+        <entry key="htm" value="text/html;charset=UTF-8" />
+      </map>
+    </property>
+    <property name="favorParameter" value="true" />
+    <property name="favorPathExtension" value="false" />
+    <property name="ignoreAcceptHeader" value="true" />
+    <property name="defaultContentType" value="text/html;charset=UTF-8" />
+  </bean>
+   -->
+  <!-- 
+  <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+      <property name="messageConverters">
+        <list>
+          <bean class="org.javaweb.showcase.web.common.UTF8StringHttpMessageConverter" >
+            <property name="supportedMediaTypes"> 
+              <list> 
+                <value>text/html;charset=UTF-8</value> 
+                <value>text/plain;charset=UTF-8</value>
+                <value>text/xml;charset=UTF-8</value>
+                <value>application/json;charset=UTF-8</value>
+              </list> 
+            </property> 
+         </bean>
+       </list>
+      </property>
+  </bean>
+   --> 
+</beans>

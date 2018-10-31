@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html id="ng-app" ng-app><!-- ng-app 自动初始化 AngularJS -->
+
+<head>
+  <meta charset="UTF-8">
+  <title>Insert title here</title>
+</head>
+
+<body>
+  <h1>Hello World!</h1>
+  
+  <div ng-init="qty=1;cost=2">
+      <b>订单:</b>
+      <div>
+        数量: <input type="number" ng-model="qty" required >
+      </div>
+      <div>
+        单价: <input type="number" ng-model="cost" required >
+      </div>
+      <div>
+        <b>总价:{{qty * cost}}</b> 
+      </div>
+    </div>
+
+
+  <script type="text/javascript" src="angular.js"></script>
+  <script>
+    //手动初始化 AngularJS
+    /*
+       angular.element(document).ready(function() {
+         angular.module('myApp', []);
+         angular.bootstrap(document, ['myApp']);
+       });
+    */
+  </script>
+</body>
+</html>

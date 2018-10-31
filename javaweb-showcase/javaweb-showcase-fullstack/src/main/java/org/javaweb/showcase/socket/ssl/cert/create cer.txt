@@ -1,0 +1,23 @@
+1，创建服务端keystore
+
+    keytool -genkey -alias "server" -keyalg "RSA" -keypass "changeit" -storepass "changeit" -validity "365" -keystore "D:\server.jks" -dname "CN=127.0.0.1, OU=127.0.0.1, O=127.0.0.1, L=SH, ST=SH, C=CN"
+
+2，创建客户端keystore
+
+    keytool -genkey -alias "client" -keyalg "RSA" -keypass "changeit" -storepass "changeit" -validity "365" -keystore "D:\client.jks" -dname "CN=127.0.0.1, OU=127.0.0.1, O=127.0.0.1, L=SH, ST=SH, C=CN"
+
+3，导出服务端证书
+
+    keytool -export -alias "server" -keystore "D:\server.jks" -storepass "changeit" -file "D:\server.cer"
+
+4，导出客户端证书
+
+    keytool -export -alias "client" -keystore "D:\client.jks" -storepass "changeit" -file "D:\client.cer"
+
+5，将服务端证书导入到客户端 trustkeystroe
+
+    keytool -import -keystore "D:\clientTrust.jks" -storepass "changeit" -file "D:\server.cer"
+
+6，将客户端证书导入到服务端 trustkeystroe
+
+    keytool -import -keystore "D:\serverTrust.jks" -storepass "changeit" -file "D:\client.cer"

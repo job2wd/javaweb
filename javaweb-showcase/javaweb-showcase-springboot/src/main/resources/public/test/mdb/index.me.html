@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">    
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">  
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="image" content="/img/mdb-main.jpg">
+  
+  <link rel="shortcut icon" href="/img/favicon.ico">
+
+  <link rel="stylesheet" href="/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/mdb.min.css">
+  <link rel="stylesheet" href="/css/compiled.min.css">
+
+  <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+<body class="hidden-sn mdb-skin">
+
+    <!--Double navigation-->
+    <header>
+        <!-- Sidebar navigation -->
+        <div id="slide-out" class="side-nav sn-bg-4 mdb-sidenav">
+           <!-- layout/header-sidebar.html --> 
+        </div>
+        <!--/. Sidebar navigation -->
+        
+        <!-- Navbar -->
+        <nav id="header-navbar" class="navbar fixed-top navbar-toggleable-md navbar-expand-lg scrolling-navbar double-nav">
+          <!-- layout/header-navbar.html -->
+        </nav>
+        <!-- /.Navbar -->
+    </header>
+    <!--/.Double navigation-->
+    
+    <!--Main layout-->
+    <main id="main" class="mt-5">
+      <!-- layout/main.html -->
+    </main>
+    <!--Main layout-->
+
+    <!-- Footer -->
+    <!-- <footer class="page-footer unique-color-dark"> -->
+    <footer id="footer" class="page-footer font-small unique-color-dark pt-0">
+      <!-- layout/footer.html -->
+    </footer>
+    <!-- Footer -->
+    
+    <!-- SCRIPTS -->
+
+    <script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="/js/popper.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/test/mdb/js/mdb.min.js"></script>
+
+    <script type="text/javascript">
+      var ctxPath = "http://127.0.0.1";
+      
+      function request(objId, url, data, callback) {
+          //load(url,data,function(response,status,xhr))
+          //$("main").load(ctxPath + "/" + url, data, callback);
+          var htmlobj=$.ajax({url:ctxPath + "/" + url, async:false});
+          $("#" + objId).html(htmlobj.responseText);
+      }
+            
+      $(function() {
+          /*var header_sidebar = $("#slide-out");
+          var header_navbar = $("#header-navbar");
+          var main = $("#main");
+          var footer = $("#footer");
+          
+          header_sidebar.load(ctxPath + "/test/mdb/layout/header-sidebar.html");
+          header_navbar.load(ctxPath + "/test/mdb/layout/header-navbar.html");
+          main.load(ctxPath + "/test/mdb/layout/main.html");
+          footer.load(ctxPath + "/test/mdb/layout/footer.html", function( response, status, xhr ) {
+        	  console.log(response);
+        	  console.log(status);
+        	  console.log(xhr);
+          });*/
+          request("slide-out", "/test/mdb/layout/header-sidebar.html");
+          request("header-navbar", "/test/mdb/layout/header-navbar.html");
+          request("main", "/test/mdb/layout/main.html");
+          request("footer", "/test/mdb/layout/footer.html");
+          
+          initPage();
+        });
+        
+      function initPage() {
+    	  // SideNav Button Initialization
+        $(".button-collapse").sideNav();
+          
+        // SideNav Scrollbar Initialization
+        var sideNavScrollbar = $('.custom-scrollbar');
+        Ps.initialize(sideNavScrollbar);        
+
+        $('.carousel').carousel({
+            interval: 3000,
+        });  
+      }        
+    </script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context"  
+    xmlns:cache="http://www.springframework.org/schema/cache"  
+    xsi:schemaLocation="
+     http://www.springframework.org/schema/beans 
+     http://www.springframework.org/schema/beans/spring-beans.xsd  
+     http://www.springframework.org/schema/context 
+     http://www.springframework.org/schema/context/spring-context.xsd
+     http://www.springframework.org/schema/cache 
+     http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+  <!-- Spring cache for Memcached , 使用 Spring 4.x 提供的 cache，无需引入额外的包。 -->
+  <!-- 
+            目前系统缓存框架使用了 Spring cache，使用的集成服务端为 Memcached（废弃了 Spring cache 与 EHcache 的集成，applicatioinContext-cache-ehcache.xml），
+             客户端的实现为 Xmemcached，在需要使用缓存的对象或方法上可使用 Spring cache 相关注解即可。
+            另外，Hibernate 二级缓存使用的也是 Memcached，废弃了 EHCache 的实现，在需要使用 Hibernate 二级缓存的对象或方法上使用 Hibernate 提供的注解即可。
+            可参考：
+    http://docs.spring.io/spring/docs/4.1.x/spring-framework-reference/html/cache.html 
+    https://code.google.com/p/hibernate-memcached/wiki/Configuration
+    https://code.google.com/p/simple-spring-memcached
+    https://code.google.com/p/xmemcached/wiki/User_Guide_zh#与Spring框架和Hibernate-memcached的集成
+  -->
+  
+  <cache:annotation-driven cache-manager="cacheManager" proxy-target-class="true"/>
+
+  <bean id="cacheManager" class="org.springframework.cache.support.CompositeCacheManager">
+    <property name="cacheManagers">
+      <list>
+        <ref bean="memcachedCacheManager" />
+      </list>
+    </property>
+    <property name="fallbackToNoOpCache" value="true" />
+  </bean>
+
+  <bean id="memcachedClientBuilder" class="net.rubyeye.xmemcached.XMemcachedClientBuilder">
+    <constructor-arg index="0" name="addressList" type="java.lang.String" value="${memcached.address}" />
+    <property name="connectionPoolSize" value="5" />
+    <property name="commandFactory">
+      <bean class="net.rubyeye.xmemcached.command.BinaryCommandFactory" />
+    </property>
+    <property name="transcoder">
+      <bean class="net.rubyeye.xmemcached.transcoders.SerializingTranscoder" />
+    </property>
+  </bean>  
+      
+  <bean id="memcachedClient" factory-bean="memcachedClientBuilder" factory-method="build" destroy-method="shutdown"/>
+
+  <bean id="memcachedCacheManager" class="org.javaweb.showcase.cache.memcached.xmemcached.XMemcachedCacheManager">
+    <property name="memcachedClient" ref="memcachedClient" />
+    <property name="configMap">
+      <map>
+        <!-- key：@Cacheable、@CachePut、@CacheEvict等的name属性。value：缓存过期时间(单位：秒)，默认值：0 -->
+        <entry key="typeList" value="3600" />
+      </map>
+    </property>
+  </bean>    
+</beans>

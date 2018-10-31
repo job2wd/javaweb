@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context"  
+    xsi:schemaLocation="
+     http://www.springframework.org/schema/beans 
+     http://www.springframework.org/schema/beans/spring-beans.xsd  
+     http://www.springframework.org/schema/context 
+     http://www.springframework.org/schema/context/spring-context.xsd">
+  <description>所有 Properties 文件加载配置。不同环境有不同配置，由于目前只有一种，故都相同。（profile 对应web.xml中 spring.profiles.default）</description>
+  
+  <!-- production 环境 -->
+  <beans profile="production">
+      <bean id="propertyConfigurer" class="org.javaweb.showcase.common.CustomizedPropertyPlaceholderConfigurer">
+		<property name="ignoreResourceNotFound" value="false" />
+		<property name="locations">
+			<list>
+				  <value>classpath*:prop/system.properties</value>
+		          <value>classpath*:prop/jdbc.properties</value>
+		          <value>classpath*:prop/hibernate.properties</value>
+		          <value>classpath*:prop/scheduler.properties</value>
+                  <value>classpath*:prop/hadoop.properties</value>
+			</list>
+		</property>
+	</bean>	
+  </beans>
+  
+  <!-- development 环境 -->  
+  <beans profile="development">
+    <bean id="propertyConfigurer" class="org.javaweb.showcase.common.CustomizedPropertyPlaceholderConfigurer">
+      <property name="ignoreResourceNotFound" value="false" />
+      <property name="locations">
+        <list>
+              <value>classpath*:prop/system.properties</value>
+              <value>classpath*:prop/jdbc.properties</value>
+              <value>classpath*:prop/hibernate.properties</value>
+              <value>classpath*:prop/scheduler.properties</value>
+              <value>classpath*:prop/hadoop.properties</value>
+        </list>
+      </property>
+    </bean>  
+  </beans>
+
+  <!-- functional test 环境 -->
+  <beans profile="functional">
+    <!-- properties 属性文件装载 -->
+    <context:property-placeholder ignore-resource-not-found="false"
+      location="classpath*:prop/system.properties,
+                classpath*:prop/jdbc.properties,
+                classpath*:prop/hibernate.properties,
+                classpath*:prop/scheduler.properties,
+                classpath*:prop/hadoop.properties" />
+  </beans>
+
+  <!-- unit test环境 -->
+  <beans profile="test">
+    <!-- properties 属性文件装载 -->
+    <context:property-placeholder ignore-resource-not-found="false"
+      location="classpath*:prop/system.properties,
+                classpath*:prop/jdbc.properties,
+                classpath*:prop/hibernate.properties,
+                classpath*:prop/scheduler.properties,
+                classpath*:prop/hadoop.properties" />
+  </beans>
+</beans>

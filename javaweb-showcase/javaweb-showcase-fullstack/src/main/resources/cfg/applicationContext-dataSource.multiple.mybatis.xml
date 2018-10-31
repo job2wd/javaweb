@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+    http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
+  <description>
+          多数据源普通方式配置之 Mybatis 实现，不支持分布式事务控制（若在不同数据源之间执行操作，则无法使用事务）。
+          注：该配置方式建议在不支持事务的场景下使用，可将事务配置部分注释掉！
+  </description>
+  
+  <bean id="baseDataSource" abstract="true">
+    <property name="maxActive" value="20" />
+    <property name="initialSize" value="1" />
+    <property name="maxWait" value="60000" />
+    <property name="maxIdle" value="20" />
+    <property name="minIdle" value="3" />
+    <property name="removeAbandoned" value="true" />
+    <property name="removeAbandonedTimeout" value="180" />
+    <property name="poolPreparedStatements" value="true" />
+    <property name="maxOpenPreparedStatements" value="10" />
+    <property name="testOnBorrow" value="true" />
+  </bean>
+  
+  <bean id="dataSource_conf" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" parent="baseDataSource">
+    <property name="driverClassName" value="${conf.jdbc.driverClassName}" />
+    <property name="url" value="${conf.jdbc.url}" />
+    <property name="username" value="${conf.jdbc.username}" />
+    <property name="password" value="${conf.jdbc.password}" />
+    <property name="validationQuery" value="SELECT 1 from user_info" />
+  </bean>
+
+  <bean id="dataSource_data" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" parent="baseDataSource">
+    <property name="driverClassName" value="${data.jdbc.driverClassName}" />
+    <property name="url" value="${data.jdbc.url}" />
+    <property name="username" value="${data.jdbc.username}" />
+    <property name="password" value="${data.jdbc.password}" />
+    <property name="validationQuery" value="SELECT 1 from user_info" />
+  </bean>
+  
+  <bean id="baseSessionFactory" abstract="true">
+    <property name="packagesToScan" value="org.javaweb.showcase.**" />
+    <property name="namingStrategy">
+      <bean class="org.hibernate.cfg.ImprovedNamingStrategy" />
+    </property>
+    <property name="hibernateProperties">
+      <props>
+        <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+        <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+        <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+        <prop key="ibernate.generate_statistics">false</prop>
+        <prop key="ibernate.hbm2ddl.auto">update</prop><!-- create/create-drop/update -->
+        <prop key="hibernate.max_fetch_depth" >5</prop>
+        <prop key="hibernate.jdbc.fetch_size" >50</prop>
+        <prop key="hibernate.jdbc.batch_size" >0</prop>
+        <prop key="hibernate.default_schema" >user</prop>
+        <prop key="hibernate.current_session_context_class">org.springframework.orm.hibernate4.SpringSessionContext</prop>
+        
+        <prop key="hibernate.cache.use_query_cache">true</prop>
+        <prop key="hibernate.cache.use_second_level_cache">true</prop>
+        <prop key="hibernate.cache.use_structured_entries">true</prop>
+        <prop key="hibernate.cache.generate_statistics">false</prop>
+        <!-- 设置二级缓存的前缀名称 -->
+        <prop key="hibernate.cache.region_prefix">quality.cache.memcached</prop>
+        <!-- org.hibernate.cache.ehcache.EhCacheRegionFactory 
+             net.sf.ehcache.hibernate.EhCacheRegionFactory 
+             org.hibernate.cache.internal.NoCachingRegionFactory
+             com.googlecode.hibernate.memcached.MemcachedRegionFactory
+        -->
+        <prop key="h4m.adapter.class"></prop>
+        <prop key="h4m.expiry.seconds"></prop>
+        <prop key="h4m.timestamper.class"></prop>
+        <!-- kr.pe.kwonnam.hibernate4memcached.Hibernate4MemcachedRegionFactory -->
+        <!-- com.googlecode.hibernate.memcached.MemcachedRegionFactory -->
+        <!-- org.javaweb.showcase.web.cache.memcached.xmemcached.XMemcachedRegionFactory -->
+        <prop key="hibernate.cache.region.factory_class">org.javaweb.showcase.cache.memcached.xmemcached.XMemcachedRegionFactory</prop>        
+        <!-- org.hibernate.cache.EhCacheProvider -->
+        <!-- net.sf.ehcache.hibernate.EhCacheProvider -->        
+        <prop key="hibernate.cache.provider_class">com.googlecode.hibernate.memcached.MemcachedCacheProvider</prop>
+        <!-- Default operation timeout in milliseconds -->
+        <!-- https://code.google.com/p/hibernate-memcached/wiki/Configuration -->
+        <prop key="hibernate.memcached.operationTimeout">6000</prop>
+        <prop key="hibernate.memcached.memcacheClientFactory">net.rubyeye.xmemcached.utils.hibernate.XmemcachedClientFactory</prop>
+        <prop key="hibernate.memcached.servers">${memcached.address}</prop>
+        
+        <prop key="hibernate.search.lucene_version">LUCENE_CURRENT</prop>        
+        <!-- 命名规则 my_name->MyName 为何此处加了不起作用？但作为 sessionFactory 的参数 namingStrategy 却起作用 -->
+        <prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
+      </props>
+    </property>
+  </bean>
+  
+  <bean id="sessionFactory_conf" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" parent="baseSessionFactory">
+    <property name="dataSource" ref="dataSource_conf" />
+  </bean>
+  
+  <bean id="sessionFactory_data" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" parent="baseSessionFactory">
+    <property name="dataSource" ref="dataSource_data" />
+  </bean>
+  
+  <bean id="transactionManager_conf" class="org.springframework.orm.hibernate4.HibernateTransactionManager" 
+        abstract="false" lazy-init="true" autowire="default">
+    <property name="sessionFactory" ref="sessionFactory_conf" />
+  </bean>
+  
+  <bean id="transactionManager_data" class="org.springframework.orm.hibernate4.HibernateTransactionManager" 
+        abstract="false" lazy-init="true" autowire="default">
+    <property name="sessionFactory" ref="sessionFactory_data" />
+  </bean>
+  
+  <!-- 使用 Annotation 定义事务 -->
+  <tx:annotation-driven transaction-manager="transactionManager_conf" proxy-target-class="true" />
+  <tx:annotation-driven transaction-manager="transactionManager_data" proxy-target-class="true" />
+  
+  <!-- 
+        由于使用 annotation 定义事务（<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />）
+        故注释掉如下部分
+  <tx:advice id="txAdvice" transaction-manager="transactionManager">
+    <tx:attributes>
+      <tx:method name="get*" read-only="false" />
+      <tx:method name="is*" read-only="false" />
+      <tx:method name="find*" read-only="false" />
+      <tx:method name="*Service" propagation="NOT_SUPPORTED" />
+      <tx:method name="*" propagation="REQUIRED" />
+    </tx:attributes>
+  </tx:advice>
+
+  <aop:config>
+    <aop:pointcut id="serviceMethod" expression="execution(* com.nqsky..*Service.*(..))" />
+    <aop:advisor pointcut-ref="serviceMethod" advice-ref="txAdvice" />
+  </aop:config>
+   -->
+  
+  <!-- JSR303 Validator定义 -->
+  <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+
+  <!-- Hibernate4和Hibernate3不一样的地方:
+    1. 不能在使用HibernateTemplate，Spring已经不建议使用了，应该将SessionFactory直接注入到DAO，而不再是HibernateTemplate
+    2. 不能使用openSession,openSession获取的session是不受Spring切面事务管理的，必须使用 getCurrentSession ，而且必须开启事务， 
+       getCurrentSession 才能正确获取到，因为在Spring3中session是被绑定在SpringSessionContext中的，所以 getCurrentSession 
+                    是从这个上下文的线程局部变量去获取session，而且只有开启事务了，session才会绑定到这个上下文中 
+   -->
+  <!-- 
+  <bean id="hibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate">
+    <property name="sessionFactory" ref="sessionFactory" />
+    <property name="cacheQueries" value="true" />
+  </bean>
+   -->
+  <!-- 
+  <bean id="system.runtime.IDAO" class="com.nqsky.meap.persist.core.bsc.dao.hibernate.BaseDAOHibernate">
+    <property name="hibernateTemplate" ref="hibernateTemplate" />
+  </bean>
+   -->
+  <!-- 
+  <jdbc:initialize-database data-source="dataSource_conf">
+    <jdbc:script location=""/>
+  </jdbc:initialize-database>
+   -->
+    
+</beans>

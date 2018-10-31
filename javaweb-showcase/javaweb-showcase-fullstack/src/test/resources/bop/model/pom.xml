@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.bop.commons</groupId>
+    <artifactId>bop-commons</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+  <groupId>com.bop.commons.model</groupId>
+  <artifactId>bop-commons-model</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>bop-commons-model</name>
+  <description>the parent of BOP commons Model modules</description>
+
+  <modules>
+    <module>dao</module>
+    <module>entity</module>
+    <module>service</module>
+  </modules>
+
+  <dependencies>
+    <!-- bop-commons-core -->
+    <dependency>
+      <groupId>com.bop.commons.core</groupId>
+      <artifactId>bop-commons-core</artifactId>
+      <version>${bop.commons.core.version}</version>
+    </dependency>
+    <!-- Junit -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>${jdbc.groupId}</groupId>
+      <artifactId>${jdbc.artifactId}</artifactId>
+      <version>${jdbc.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-aop</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-jdbc</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-orm</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-core</artifactId>
+      <version>${spring.security.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-config</artifactId>
+      <version>${spring.security.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <version>${spring.version}</version>
+      <optional>true</optional>
+    </dependency>
+  </dependencies>
+
+  <properties>
+    <bop.commons.core.version>1.0.0-SNAPSHOT</bop.commons.core.version>
+  </properties>
+
+</project>

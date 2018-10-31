@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.javaweb.showcase.dao.data.SysLogDao">
+
+  <select id="findAllSysLogs" resultType="org.javaweb.showcase.model.SysLog">
+    select * from sys_log
+  </select>
+  
+  <select id="insertSysLog" parameterType="org.javaweb.showcase.model.SysLog">
+    INSERT INTO sys_log (id, module, action, user_name, create_date) 
+  	VALUES (#{id}, #{module}, #{action}, #{userName}, #{createDate})
+  </select>
+  
+</mapper>

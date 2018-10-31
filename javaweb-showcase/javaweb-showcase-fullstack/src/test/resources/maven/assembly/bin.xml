@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly>
+  <id>bin</id>
+  <formats>
+    <format>zip</format>
+  </formats>
+  <includeBaseDirectory>true</includeBaseDirectory>
+  <fileSets>
+    <!-- 组装Tomcat -->
+    <fileSet>
+      <directory>src/main/apache-tomcat/${tomcat.version}</directory>
+      <outputDirectory>/</outputDirectory>
+      <includes>
+        <include>**</include>
+      </includes>
+      <excludes>
+        <exclude>conf/server.xml</exclude>
+        <exclude>bin/*.sh</exclude>
+      </excludes>
+    </fileSet>
+    <fileSet>
+      <directory>src/main/apache-tomcat/${tomcat.version}</directory>
+      <outputDirectory>/</outputDirectory>
+      <includes>
+        <include>bin/*.sh</include>
+      </includes>
+      <fileMode>755</fileMode>
+    </fileSet>
+    <!-- 组装启动脚本 -->
+    <fileSet>
+      <directory>src/main/scripts</directory>
+      <outputDirectory>/</outputDirectory>
+      <includes>
+        <include>*.sh</include>
+      </includes>
+      <fileMode>755</fileMode>
+    </fileSet>
+    <!-- 覆盖Tomcat自带的server.xml -->
+    <!-- 
+    <fileSet>
+      <outputDirectory>/conf</outputDirectory>
+      <directory>../src/main/resources/tomcatConf</directory>
+      <includes>
+        <include>server.xml</include>
+      </includes>
+    </fileSet>
+     -->
+    <!-- 组装ANT工具 -->
+    <fileSet>
+      <directory>src/main/apache-ant/${ant.version}</directory>
+      <outputDirectory>/tools/ant</outputDirectory>
+      <includes>
+        <include>**</include>
+      </includes>
+      <excludes>
+        <exclude>bin/*.sh</exclude>
+      </excludes>
+    </fileSet>
+    <fileSet>
+      <directory>src/main/apache-ant/${ant.version}</directory>
+      <outputDirectory>/tools/ant</outputDirectory>
+      <includes>
+        <include>bin/*.sh</include>
+      </includes>
+      <fileMode>755</fileMode>
+    </fileSet>
+    <!-- 复制数据库初始化脚本 -->
+    <fileSet>
+      <directory>src/main/schema</directory>
+      <outputDirectory>/schema</outputDirectory>
+      <includes>
+        <include>**</include>
+      </includes>
+      <excludes>
+        <exclude>*.txt</exclude>
+      </excludes>
+    </fileSet>
+    <!-- 复制获取最新构建包脚本 -->
+    <fileSet>
+      <directory>src/main/upgrade</directory>
+      <outputDirectory>/upgrade</outputDirectory>
+      <includes>
+        <include>*.sh</include>
+      </includes>
+      <fileMode>755</fileMode>
+    </fileSet>
+  </fileSets>
+  <dependencySets>
+    <!-- 复制WAR -->
+    <dependencySet>
+      <outputDirectory>/webapps/petbook</outputDirectory>
+      <unpack>true</unpack>
+      <!-- 
+      <unpackOptions>
+        <excludes>
+          <exclude>WEB-INF/classes/tomcatConf/**</exclude>
+        </excludes>
+      </unpackOptions>
+       -->
+      <includes>
+        <include>*:war</include>
+      </includes>
+    </dependencySet>
+  </dependencySets>
+</assembly>

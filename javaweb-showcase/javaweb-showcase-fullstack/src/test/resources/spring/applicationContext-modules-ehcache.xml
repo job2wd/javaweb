@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context"     
+    xsi:schemaLocation="
+     http://www.springframework.org/schema/beans 
+     http://www.springframework.org/schema/beans/spring-beans.xsd  
+     http://www.springframework.org/schema/context 
+     http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- Springmodules cache 已被 Spring 4.x 中的 cache 代替，详见  /src/main/resources/conf/applicationContext-cache-ehcache.xml -->
+
+	<!-- org.springframework.cache.concurrent.ConcurrentMapCacheManager -->
+  <bean id="cacheManager" class="net.sf.ehcache.CacheManager">
+    <constructor-arg name="configurationFileName" value="classpath:conf/ehcache.xml" />
+  </bean>
+  
+  <bean id="cacheProvider" class="org.springmodules.cache.provider.ehcache.EhCacheFacade">
+    <property name="cacheManager" ref="cacheManager" />
+  </bean>
+ 
+</beans>

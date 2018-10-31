@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.bop.commons</groupId>
+  <artifactId>bop-commons</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>bop-ommons</name>
+  <inceptionYear>2012</inceptionYear>
+  <url>http://www.bop.com</url>
+  <description>
+    the parent of BOP commons modules.
+            该项目的建立参考了AppFuse: http://www.appfuse.org
+  </description>
+
+  <prerequisites>
+    <maven>3.0</maven>
+  </prerequisites>
+
+  <modules>
+    <module>core</module>
+    <module>model</module>
+    <module>web</module>
+  </modules>
+
+  <organization>
+    <name>bop</name>
+    <url>http://www.bop.com</url>
+  </organization>
+
+  <licenses>
+    <license>
+      <name>Common Public License</name>
+      <url>http://www.opensource.org/licenses/cpl1.0.txt</url>
+      <distribution>manual</distribution>
+      <comments>Common Public License Version 1.0</comments>
+    </license>
+    <license>
+      <name>Apache License</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+      <comments>Version 2.0, January 2004</comments>
+    </license>
+    <license>
+      <name>BOP LICENSE-1.0</name>
+      <url>http://www.bop.com/commons/LICENSE-1.0.txt</url>
+      <distribution>manual</distribution>
+      <comments>A business-friendly OSS license</comments>
+    </license>
+  </licenses>
+
+  <scm>
+    <connection>scm:svn:https://127.0.0.1:443/svn/bop/commons/trunk</connection>
+    <developerConnection>scm:svn:https://127.0.0.1:443/svn/bop/commons/trunk</developerConnection>
+    <tag>HEAD</tag>
+    <url>scm:svn:https://127.0.0.1:443/svn/bop/commons/trunk</url>
+  </scm>
+
+  <issueManagement>
+    <system>JIRA</system>
+    <url>http://localhost/jira/browse/BOPCOMS</url>
+  </issueManagement>
+
+  <ciManagement>
+    <system>Hudson</system>
+    <url>http://localhost/hudson/job/bop-commons</url>
+    <notifiers>
+      <notifier>
+        <type>mail</type>
+        <sendOnError>true</sendOnError>
+        <sendOnFailure>true</sendOnFailure>
+        <sendOnSuccess>false</sendOnSuccess>
+        <sendOnWarning>false</sendOnWarning>
+        <configuration>
+          <type>mail</type>
+          <address>mail2wd@163.com</address>
+        </configuration>
+      </notifier>
+    </notifiers>
+  </ciManagement>
+
+  <mailingLists>
+    <mailingList>
+      <name>David</name>
+      <post>mail2wd@163.com</post>
+      <subscribe>mail2wd@163.com</subscribe>
+      <unsubscribe>mail2wd@163.com</unsubscribe>
+      <archive>http://www.bop.com/projects/bop-commons/dev</archive>
+    </mailingList>
+  </mailingLists>
+
+  <developers>
+    <developer>
+      <id>David_King</id>
+      <name>David King</name>
+      <email>mail2wd@163.com</email>
+      <url>http://joy2wd.blogcn.com</url>
+      <roles>
+        <role>Project Manager</role>
+        <role>Architect</role>
+        <role>Programmer</role>
+      </roles>
+      <organization>bop</organization>
+      <organizationUrl>http://www.bop.com/projects/bop-commons/devr/david</organizationUrl>
+      <properties>
+        <dept>No</dept>
+      </properties>
+      <timezone>-5</timezone>
+    </developer>
+  </developers>
+
+  <distributionManagement>
+    <repository>
+      <id>bop-public-releases</id>
+      <name>BOP Internal Releases</name>
+      <url>http://localhost/nexus/content/repositories/bop-public-releases</url>
+    </repository>
+    <snapshotRepository>
+      <id>bop-public-snapshots</id>
+      <name>BOP Internal Snapshots</name>
+      <url>http://localhost/nexus/content/repositories/bop-public-snapshots</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+  <build>
+    <defaultGoal>install</defaultGoal>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>2.3.2</version>
+          <configuration>
+            <source>1.5</source>
+            <target>1.5</target>
+            <encoding>UTF-8</encoding>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.12</version>
+          <configuration>
+            <testFailureIgnore>false</testFailureIgnore>
+            <skipTest>${skipTest}</skipTest>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.0</version>
+          <configuration>
+            <reportPlugins>
+              <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                  <dependencyDetailsEnabled>true</dependencyDetailsEnabled>
+                  <dependencyLocationsEnabled>true</dependencyLocationsEnabled>
+                </configuration>
+              </plugin>
+              <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.8</version>
+              </plugin>
+            </reportPlugins>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>2.7</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>2.1.2</version>
+          <configuration>
+            <attach>true</attach>
+          </configuration>
+          <inherited>true</inherited>
+          <executions>
+            <execution>
+              <id>attach-sources</id>
+              <phase>package</phase>
+              <goals>
+                <goal>jar</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <dependencyManagement>
+    <!-- 
+    <dependencies>
+      <dependency>
+        <groupId>log4j</groupId>
+        <artifactId>log4j</artifactId>
+        <version>${log4j.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${junit.version}</version>
+        <scope>test</scope>
+        <optional>true</optional>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-test</artifactId>
+        <version>${spring.version}</version>
+        <scope>test</scope>
+        <optional>true</optional>
+      </dependency>
+    </dependencies>
+     -->
+  </dependencyManagement>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <copyright.year>2012-2020</copyright.year>
+
+    <dao.framework>hibernate</dao.framework>
+
+    <skipTest>true</skipTest>
+    <junit.version>4.8.2</junit.version>
+    <log4j.version>1.2.16</log4j.version>
+    <slf4j.version>1.6.1</slf4j.version>
+
+    <commons.lang.version>2.6</commons.lang.version>
+    <commons.logging.version>1.1.1</commons.logging.version>
+    <commons.beanutils.version>1.8.3</commons.beanutils.version>
+    <commons.collections.version>3.2.1</commons.collections.version>
+    <commons.io.version>2.0.1</commons.io.version>
+    <commons.dbcp.version>1.3</commons.dbcp.version>
+    <commons.fileupload.version>1.2.2</commons.fileupload.version>
+
+    <spring.version>3.0.5.RELEASE</spring.version>
+    <spring.security.version>3.0.5.RELEASE</spring.security.version>
+
+    <hibernate.version>3.6.1.Final</hibernate.version>
+    <hibernate.entitymanager.version>3.6.1.Final</hibernate.entitymanager.version>
+
+    <struts.version>2.1.8</struts.version>
+    <struts.menu.version>2.4.3</struts.menu.version>
+
+    <jsp.version>2.1</jsp.version>
+    <servlet.version>2.5</servlet.version>
+    <jstl.version>1.1.2</jstl.version>
+
+    <javamail.version>1.4.1</javamail.version>
+    <jpa.version>2.0-cr-1</jpa.version>
+    <cxf.version>2.3.3</cxf.version>
+    <dwr.version>2.0.3</dwr.version>
+
+    <ehcache.version>2.3.1</ehcache.version>
+    <ehcache.web.version>2.0.3</ehcache.web.version>
+
+    <compass.version>2.2.0</compass.version>
+    <jmock.version>2.5.1</jmock.version>
+    <wiser.version>1.2</wiser.version>
+    <velocity.version>1.4</velocity.version>
+    <urlrewrite.version>3.1.0</urlrewrite.version>
+    <displaytag.version>1.2</displaytag.version>
+    <sitemesh.version>2.4.2</sitemesh.version>
+    <webtest.version>3.0</webtest.version>
+
+    <jaxws.api.version>2.2</jaxws.api.version>
+
+    <dbunit.dataTypeFactoryName>org.dbunit.ext.mysql.MySqlDataTypeFactory</dbunit.dataTypeFactoryName>
+    <dbunit.operation.type>CLEAN_INSERT</dbunit.operation.type>
+
+    <hibernate.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</hibernate.dialect>
+
+    <jdbc.groupId>mysql</jdbc.groupId>
+    <jdbc.artifactId>mysql-connector-java</jdbc.artifactId>
+    <jdbc.version>5.1.14</jdbc.version>
+    <jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
+    <jdbc.url>
+            <![CDATA[jdbc:mysql://localhost/bopcommon?createDatabaseIfNotExist=true&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true]]>
+    </jdbc.url>
+    <jdbc.username>root</jdbc.username>
+    <jdbc.password />
+    <!--
+      <jetty.version>6.1.26</jetty.version> <cargo.version>1.0.6</cargo.version> <cargo.container>tomcat6x</cargo.container>
+      <cargo.container.url> http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.29/bin/apache-tomcat-6.0.29.zip </cargo.container.url>
+      <cargo.container.home>${env.CATALINA_HOME}</cargo.container.home> <cargo.host>localhost</cargo.host> <cargo.port>9876</cargo.port>
+      <cargo.wait>false</cargo.wait>
+    -->
+  </properties>
+
+
+</project>

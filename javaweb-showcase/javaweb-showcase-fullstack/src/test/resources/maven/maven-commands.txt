@@ -1,0 +1,81 @@
+创建普通应用项目： 
+mvn archetype:create -DgroupId=com.byread -DartifactId=blog
+创建WEB项目： 
+mvn archetype:create -DgroupId=com.byread -DartifactId=blogweb -DarchetypeArtifactId=maven-archetype-webapp
+创建appfuse项目： 
+mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-basic-struts -DremoteRepositories=http://static.appfuse.org/releases -DarchetypeVersion=2.0.2 -DgroupId=com.mycompany.app -DartifactId=myproject
+—————-—————-命令说明—————-—————-
+一。archetype（ 内建插件，他的create任务将建立项目骨架 ）: archetype:create
+
+二。groupId 项目的java包结构：com.byread
+三。artifactId 项目的名称：blog
+四。archetypeArtifactId（ 项目骨架的类型 ）：
+* maven-archetype-archetype 
+* maven-archetype-j2ee-simple 
+* maven-archetype-mojo 
+* maven-archetype-portlet 
+* maven-archetype-profiles (currently under development) 
+* maven-archetype-quickstart 
+* maven-archetype-simple (currently under development) 
+* maven-archetype-site 
+* maven-archetype-site-simple, and 
+* maven-archetype-webapp
+—————-—————-其他命令说明—————-—————-
+发布到本地： 
+mvn install:install -file -Dfile=D:/opensource/dbunit-2.2/dbunit-2.2.jar -DgroupId=dbunit-DartifactId=junitperf -Dversion=2.2 -Dpackaging=jar
+发布到远程： 
+mvn deploy:deploy -file -DgroupId=staticComparison -DartifactId=static-comparison -Dversion=2.0 -Dpackaging=jar -Dfile=c:/staticComparison_2.0.jar -Durl=file:Y:\repo
+生成Eclipse项目结构： 
+mvn eclipse:eclipse
+清理（删除target目录下编译内容） 
+mvn clean
+仅有页面文件发生变化时 
+mvn war:exploded 
+
+maven定义的生命周期中主要的相位如下： 
+validate: 验证项目是否正确以及相关信息是否可用。 
+compile: 编译。 
+test: 通过junit进行单元测试。 
+package: 根据事先指定的格式（比如jar），进行打包。 
+integration-test: 部署到运行环境中，准备进行集成测试。 
+verify: 对包进行有效性和质量检查。 
+install: 安装到本地代码库。 
+deploy: 在集成或发布环境，将包发布到远程代码库。
+mvn pom.xml文件配置详解
+http://maven.apache.org/ref/2.0.8/maven-model/maven.html
+mvn -version/-v  显示版本信息
+mvn archetype:generate  创建mvn项目
+mvn archetype:create -DgroupId=com.oreilly -DartifactId=my-app   创建mvn项目
+mvn package   生成target目录，编译、测试代码，生成测试报告，生成jar/war文件
+mvn jetty:run   运行项目于jetty上,
+mvn compile     编译
+mvn test     编译并测试
+mvn clean     清空生成的文件
+mvn site     生成项目相关信息的网站
+mvn -Dwtpversion=1.0 eclipse:eclipse  生成Wtp插件的Web项目
+mvn -Dwtpversion=1.0 eclipse:clean  清除Eclipse项目的配置信息(Web项目)
+mvn eclipse:eclipse    将项目转化为Eclipse项目
+在应用程序用使用多个存储库
+<repositories>    
+ <repository>      
+  <id>Ibiblio</id>      
+  <name>Ibiblio</name>      
+  <url>http://www.ibiblio.org/maven/</url>    
+ </repository>    
+ <repository>      
+  <id>PlanetMirror</id>      
+  <name>Planet Mirror</name>      
+  <url>http://public.planetmirror.com/pub/maven/</url>    
+ </repository>  
+</repositories>
+mvn deploy:deploy-file -DgroupId=com -DartifactId=client -Dversion=0.1.0 -Dpackaging=jar -Dfile=d:\client-0.1.0.jar -DrepositoryId=maven-repository-inner -Durl=ftp://xxxxxxx/opt/maven/repository/
+发布第三方Jar到本地库中：
+mvn install:install-file -DgroupId=com -DartifactId=client -Dversion=0.1.0 -Dpackaging=jar -Dfile=d:\client-0.1.0.jar
+ -DdownloadSources=true
+ -DdownloadJavadocs=true
+mvn -e   显示详细错误 信息.
+mvn validate  验证工程是否正确，所有需要的资源是否可用。 
+mvn test-compile 编译项目测试代码。 。 
+mvn integration-test  在集成测试可以运行的环境中处理和发布包。 
+mvn verify  运行任何检查，验证包是否有效且达到质量标准。  
+mvn generate-sources 产生应用需要的任何额外的源代码，如xdoclet。

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context"  
+    xmlns:cache="http://www.springframework.org/schema/cache"  
+    xsi:schemaLocation="
+     http://www.springframework.org/schema/beans 
+     http://www.springframework.org/schema/beans/spring-beans.xsd  
+     http://www.springframework.org/schema/context 
+     http://www.springframework.org/schema/context/spring-context.xsd
+     http://www.springframework.org/schema/cache 
+     http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+  <!-- Spring cache for Ehcache , 使用 Spring 4.x 提供的 cache，无需引入额外的包。 -->
+  <!-- http://docs.spring.io/spring/docs/4.1.x/spring-framework-reference/html/cache.html -->
+  
+  <cache:annotation-driven cache-manager="cacheManager" proxy-target-class="true"/>
+  
+  <bean id="cacheManager" class="org.springframework.cache.support.CompositeCacheManager">
+    <property name="cacheManagers">
+        <list>
+            <ref bean="ehcacheManager"/>
+            <!-- <ref bean="jcacheManager"/> -->                        
+        </list>
+    </property>
+    <property name="fallbackToNoOpCache" value="true"/>
+  </bean>
+  
+  <bean id="ehcacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+    <property name="cacheManager" ref="ehcache"/>
+  </bean>
+
+  <!-- EhCache library setup -->
+  <bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+    <property name="configLocation" value="classpath:cfg/ehcache.xml"/>
+  </bean>
+  
+  <!-- JSR-107 cache manager setup  -->
+  <!-- 
+  <bean id="jcacheManager"
+      class="org.springframework.cache.jcache.JCacheCacheManager"
+      p:cache-manager-ref="jCache"/>
+  <bean id="jCache" class="org.springframework.cache.jcache.JCacheManagerFactoryBean">
+    <property name="cacheManagerProperties"/>
+  </bean>
+   -->
+  
+</beans>

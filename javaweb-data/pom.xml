@@ -1,0 +1,28 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <groupId>org.javaweb.data</groupId>
+  <artifactId>javaweb-data</artifactId>
+  <!-- version>1.0.0-SNAPSHOT</version-->
+  <packaging>pom</packaging>
+  
+  <parent>
+    <groupId>org.javaweb</groupId>
+    <artifactId>javaweb</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+  
+  <name>javaweb-data</name>
+  <description>
+            所有 javaweb data 项目的超级父目录
+  </description>
+    
+  <modules>
+    <module>javaweb-data-dao</module>
+    <module>javaweb-data-model</module>
+    <module>javaweb-data-service</module>
+    <module>javaweb-data-spring</module>
+    <module>javaweb-data-hibernate</module>
+    <!-- module>javaweb-data-hadoop</module-->
+  </modules>  
+</project>
